@@ -138,28 +138,24 @@ class WifiApi(LmApi):
     ### Get Wifi Scheduler enable status
     def get_scheduler_enable(self):
         if self._api._is_repeater:
-            return self.get_scheduler_enable_legacy()
-        try:
-            d = self.get_power_management_profiles("WiFi")
-        except Exception as e:
-            LmTools.error(str(e))
-            # If failed, try legacy method
-            return self.get_scheduler_enable_legacy()
-        else:
+            return self.get_scheduler_enable_repeater()
+
+        d = self.get_power_management_profiles("WiFi")
+        if d is not None:
             d = d.get("WiFi")
-            if d is not None:
-                return d.get("Activate")
-            else:
-                LmTools.error("PowerManagement:getProfiles - No WiFi profile")
-                return self.get_scheduler_enable_legacy()
+        if d is not None:
+            return d.get("Type") == "Scheduled"     # Set to "Permanent" if OFF
+
+        LmTools.error("PowerManagement:getProfiles - No WiFi profile")
+        return False
 
 
-    ### Get Wifi Scheduler enable status - legacy method
-    def get_scheduler_enable_legacy(self):
+    ### Get Wifi Scheduler enable status for a repeater
+    def get_scheduler_enable_repeater(self):
         d = self.get_complete_schedules()
         if d:
             return d.get("enable")
-        return None
+        return False
 
 
     ### Set Wifi Scheduler enable status
@@ -169,8 +165,12 @@ class WifiApi(LmApi):
             return
 
         # Set PowerManagement profile
-        try:
-            if enable:
+        if enable:
+            # Get current schedule profile
+            p = self.get_current_schedule_profile()
+
+            # If failed, default to a full activation schedule
+            if p is None:
                 p = [{"profile": "WiFi",
                       "activate": True,
                       "type": "Weekly",
@@ -182,12 +182,10 @@ class WifiApi(LmApi):
                           "enable": True
                         }]
                     }]
-                self.call("PowerManagement", "setScheduledProfiles", {"profiles": p})
-            else:
-                self.call("PowerManagement", "setProfiles", {"profiles": [{"profile": "WiFi", "activate": False , "enable": True}]})
-        except Exception as e:
-            LmTools.error(f"PowerManagement method failed with error={e}, trying legacy method.")
-            return self.set_scheduler_enable_legacy(enable)
+            self.call("PowerManagement", "setScheduledProfiles", {"profiles": p})
+        else:
+            # This cmd well disable the scheduler - enable must be set to true, otherwise Wifi is deactivated
+            self.call("PowerManagement", "setProfiles", {"profiles": [{"profile": "WiFi" , "enable": True}]})
 
         # Get complete schedules
         schedule = self.get_complete_schedules()
@@ -202,6 +200,39 @@ class WifiApi(LmApi):
              "enable": enable,
              "override": ""}
         d = self.call("Scheduler", "addSchedule", {"type": "WLAN", "info": p})
+
+
+    ### Build a schedule profile for write interface from current setup
+    def get_current_schedule_profile(self):
+        d = self.get_power_management_profiles("WiFi")
+        if d is not None:
+            d = d.get("WiFi")
+        if d is None:
+            return None
+
+        schedule = d.get("Scheduler")
+        if schedule is None:
+            return None
+
+        s = schedule.get("Schedules")
+        if not s:
+            return None
+
+        converted_sched = []
+        for key, entry in s.items():
+            converted_entry = {
+                "Day": entry.get("Day", 1),
+                "Hour": entry.get("Hour", 0),
+                "Minute": entry.get("Minute", 0),
+                "Second": entry.get("Second", 0),
+                "enable": entry.get("Enable", False),
+            }
+            converted_sched.append(converted_entry)
+
+        return [{"profile": "WiFi",
+                 "activate": True,
+                 "type": schedule.get("Type", "Weekly"),
+                 "schedules": converted_sched}]
 
 
     ### Legacy method to set Wifi Scheduler on or off
@@ -293,6 +324,65 @@ class WifiApi(LmApi):
     def set_scheduler_enable_repeater(self, enable):
         # ID has to remain 'wl0' - it is NOT corresponding to an intf key
         self.call("Scheduler", "enableSchedule", {"type": "WLAN", "ID": "wl0", "enable": enable})
+
+
+    ### Get Wifi scheduler schedule
+    def get_schedule(self):
+        if self._api._is_repeater:
+            return self.get_schedule_repeater()
+
+        d = self.get_power_management_profiles("WiFi")
+        if d is not None:
+            d = d.get("WiFi")
+        if d is not None:
+            s = d.get("Scheduler")
+            if s and s.get("Type") == "Weekly":
+                s = s.get("Schedules")
+            else:
+                s = None
+            return {"Enable": d.get("Type") == "Scheduled", "Repeater": False, "Schedule": s}
+
+        LmTools.error("PowerManagement:getProfiles - No WiFi profile")
+        return None
+
+
+    ### Get Wifi Scheduler schedule for a Wifi repeater
+    def get_schedule_repeater(self):
+        d = self.get_complete_schedules()
+        if d:
+            schedule = {"Enable": d.get("enable"), "Repeater": True, "Schedule": None}
+            if d.get("base") == "Weekly":
+                schedule["Schedule"] = s.get("schedule")
+            return schedule
+        return None
+
+
+    ### Set Wifi scheduler schedule
+    def set_schedule(self, schedule):
+        if schedule.get("Repeater", False):
+            return self.set_schedule_repeater(schedule)
+
+        profile = {
+            "activate": True,
+            "profile": "WiFi",
+            "type": "Weekly",
+            "schedules": schedule.get("Schedule", [])
+        }
+        self.call("PowerManagement", "setScheduledProfiles", {"profiles": [profile]})
+
+        if not schedule.get("Enable", False):
+            self.set_scheduler_enable(False)
+
+
+    ### Set Wifi scheduler schedule for a Wifi repeater
+    def set_schedule_repeater(self, schedule):
+        p = {"base": "Weekly",
+             "def": "Enable",
+             "ID": "wl0",
+             "schedule": schedule.get("Schedule", []),
+             "enable": schedule.get("Enable", False),
+             "override": ""}
+        d = self.call("Scheduler", "addSchedule", {"type": "WLAN", "info": p})
 
 
     ### Get complete schedules data
@@ -809,7 +899,6 @@ class WifiApi(LmApi):
             return u
 
         # General Wifi status
-        wifi_scheduler_status = None
         try:
             d = self.get_status()
         except Exception as e:
@@ -821,7 +910,6 @@ class WifiApi(LmApi):
         else:
             u[WifiKey.ENABLE] = WifiStatus.ENABLE if d.get("Enable", False) else WifiStatus.DISABLE
             u[WifiKey.STATUS] = WifiStatus.ENABLE if d.get("Status", False) else WifiStatus.DISABLE
-            wifi_scheduler_status = d.get("SchedulingEnabled")
 
         # Wifi scheduler status
         if self.has_scheduler():
@@ -833,15 +921,9 @@ class WifiApi(LmApi):
 
             # Agregate result
             if status is None:
-                if wifi_scheduler_status is None:
-                    u[WifiKey.SCHEDULER] = WifiStatus.ERROR
-                else:
-                    u[WifiKey.SCHEDULER] = WifiStatus.ENABLE if wifi_scheduler_status else WifiStatus.DISABLE
+                u[WifiKey.SCHEDULER] = WifiStatus.ERROR
             else:
-                if wifi_scheduler_status is None:
-                    u[WifiKey.SCHEDULER] = WifiStatus.ENABLE if status else WifiStatus.DISABLE
-                else:
-                    u[WifiKey.SCHEDULER] = WifiStatus.ENABLE if (status and wifi_scheduler_status) else WifiStatus.DISABLE
+                u[WifiKey.SCHEDULER] = WifiStatus.ENABLE if status else WifiStatus.DISABLE
 
         # Wifi interfaces status
         try:
