@@ -496,6 +496,7 @@ TOOLTIPS = {
         "wifiOff": "Allows you to disable the Wifi interface of the Livebox.",
         "guestWifiOn": "Allows you to enable the guest Wifi interface of the Livebox.",
         "guestWifiOff": "Allows you to disable the guest Wifi interface of the Livebox.",
+        "schedulerConfig": "Allows you to configure the Wifi network scheduler.",
         "schedulerOn": "Allows you to enable the Wifi scheduler of the Livebox.\n"
                        "This scheduler must be configured from the Livebox web interface.",
         "schedulerOff": "Allows you to disable the Wifi scheduler of the Livebox.",
@@ -582,6 +583,18 @@ TOOLTIPS = {
 
     # Actions - Wifi global status
     "wglobal": {},
+
+    # Actions - Scheduler
+    "scheduler": {
+        "globalEnable": "Enables or disables the scheduler.",
+        "timeline": "Schedule. It can be modified using the mouse.\n"
+                    "Activation periods are in green, deactivation periods in red.",
+        "startEdit": "Start of the period to add (HH:MM format).",
+        "endEdit": "End of the period to add (HH:MM format).",
+        "actionCombo": "Select whether this is an activation or deactivation period.",
+        "days": "Select the days covered by the period.",
+        "apply": "Applies the period entered in the scheduler."
+    },
 
     # Actions - Backup & Restore
     "backrest": {

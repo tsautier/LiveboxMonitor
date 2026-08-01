@@ -708,12 +708,9 @@ LABELS = {
     "actions": {
         "Configuration...": "",
         "Guest...": "",
-        "Wifi ON": "",
-        "Wifi OFF": "",
-        "Guest ON": "",
-        "Guest OFF": "",
-        "Wifi Scheduler ON": "",
-        "Wifi Scheduler OFF": "",
+        "Scheduler...": "",
+        "ON": "",
+        "OFF": "",
         "Show Global Status...": "",
         "Wifi": "",
         "Backup and Restore...": "",
@@ -818,6 +815,32 @@ LABELS = {
         "Error": "",
         "Inactive": "",
         "Not signed": ""
+    },
+
+    # Actions - Scheduler
+    "scheduler": {
+        "Enable Schedule": "",
+        "Add Period": "",
+        "Start (HH:MM)": "",
+        "End (HH:MM)": "",
+        "Action": "",
+        "Activate": "",
+        "Deactivate": "",
+        "Days": "",
+        "Mon": "",
+        "Tue": "",
+        "Wed": "",
+        "Thu": "",
+        "Fri": "",
+        "Sat": "",
+        "Sun": "",
+        "Apply": "",
+        "OK": "",
+        "Cancel": "",
+        "Schedule Editor": "",
+        "Please enter times in HH:MM format (00:00 .. 24:00).": "",
+        "The end time must be greater than the start time.": "",
+        "You must select at least one day.": ""
     },
 
     # Actions - Backup & Restore
@@ -1621,6 +1644,7 @@ TOOLTIPS = {
         "wifiOff": "",
         "guestWifiOn": "",
         "guestWifiOff": "",
+        "schedulerConfig": "",
         "schedulerOn": "",
         "schedulerOff": "",
         "wifiGlobalStatus": "",
@@ -1699,6 +1723,20 @@ TOOLTIPS = {
     # Actions - Wifi global status
     "wglobal": {
         "ok": ""
+    },
+
+    # Actions - Scheduler
+    "scheduler": {
+        "globalEnable": "",
+        "timeline": "",
+        "editorGroup": "",
+        "startEdit": "",
+        "endEdit": "",
+        "actionCombo": "",
+        "days": "",
+        "apply": "",
+        "ok": "",
+        "cancel": ""
     },
 
     # Actions - Backup & Restore

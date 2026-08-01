@@ -619,10 +619,7 @@ LABELS = {
     # Actions
     "actions": {
         "Guest...": "Invité...",
-        "Guest ON": "Invité ON",
-        "Guest OFF": "Invité OFF",
-        "Wifi Scheduler ON": "Planificateur Wifi ON",
-        "Wifi Scheduler OFF": "Planificateur Wifi OFF",
+        "Scheduler...": "Planificateur...",
         "Show Global Status...": "État Global Wifi...",
         "Backup and Restore...": "Sauvegarde et Restauration...",
         "LEDs and Screen...": "LEDs et Écran...",
@@ -714,6 +711,30 @@ LABELS = {
         "Error": "Erreur",
         "Inactive": "Inactif",
         "Not signed": "Non authentifié"
+    },
+
+    # Actions - Scheduler
+    "scheduler": {
+        "Enable Schedule": "Activer le planificateur",
+        "Add Period": "Ajouter Période",
+        "Start (HH:MM)": "Début (HH:MM)",
+        "End (HH:MM)": "Fin (HH:MM)",
+        "Activate": "Activer",
+        "Deactivate": "Désactiver",
+        "Days": "Jours",
+        "Mon": "Lun",
+        "Tue": "Mar",
+        "Wed": "Mer",
+        "Thu": "Jeu",
+        "Fri": "`Ven",
+        "Sat": "Sam",
+        "Sun": "Dim",
+        "Apply": "Appliquer",
+        "Cancel": "Annuler",
+        "Schedule Editor": "Éditeur Planificateur",
+        "Please enter times in HH:MM format (00:00 .. 24:00).": "Veuillez saisir les heures au format HH:MM (00:00 .. 24:00).",
+        "The end time must be greater than the start time.": "L'heure de fin doit être postérieure à l'heure de début.",
+        "You must select at least one day.": "Vous devez sélectionner au moins un jour."
     },
 
     # Actions - Backup & Restore
@@ -1538,6 +1559,7 @@ TOOLTIPS = {
         "wifiOff": "Permet de désactiver l'interface Wifi de la Livebox.",
         "guestWifiOn": "Permet d'activer l'interface Wifi invité de la Livebox.",
         "guestWifiOff": "Permet de désactiver l'interface Wifi invité de la Livebox.",
+        "schedulerConfig": "Permet de configurer le planificateur du réseau Wifi.",
         "schedulerOn": "Permet d'activer le planificateur Wifi de la Livebox.\n"
                        "Ce planificateur doit être configuré depuis l'interface Web de la Livebox.",
         "schedulerOff": "Permet de désactiver le planificateur Wifi de la Livebox.",
@@ -1625,6 +1647,18 @@ TOOLTIPS = {
 
     # Actions - Wifi global status
     "wglobal": {},
+
+    # Actions - Scheduler
+    "scheduler": {
+        "globalEnable": "Active ou désactive le planificateur.",
+        "timeline": "Planificateur. Il est possible de le modifier avec la souris.\n"
+                    "Les périodes d'activation sont en vert, celles de désactivation en rouge.",
+        "startEdit": "Début de la période à ajouter (format HH:MM).",
+        "endEdit": "Fin de la période à ajouter (format HH:MM).",
+        "actionCombo": "Sélectionnez s'il s'agit d'une période d'activation ou de désactivation.",
+        "days": "Sélectionnez les jours concernés par la période.",
+        "apply": "Applique la période saisie dans le planificateur."
+    },
 
     # Actions - Backup & Restore
     "backrest": {
