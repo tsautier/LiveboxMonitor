@@ -12,6 +12,7 @@ from LiveboxMonitor.app.LmConfig import LmConf, set_application_style
 from LiveboxMonitor.dlg.LmPrefs import PrefsDialog
 from LiveboxMonitor.dlg.LmEmailSetup import EmailSetupDialog
 from LiveboxMonitor.dlg.LmWifiConfig import WifiConfigDialog
+from LiveboxMonitor.dlg.LmScheduler import SchedulerDialog
 from LiveboxMonitor.dlg.LmWifiGlobalStatus import WifiGlobalStatusDialog
 from LiveboxMonitor.dlg.LmRebootHistory import RebootHistoryDialog
 from LiveboxMonitor.dlg.LmFirewall import FirewallLevelDialog
@@ -62,11 +63,11 @@ class LmActions:
         wifi_config_button.setMinimumWidth(BUTTON_WIDTH)
         wifi_set.addWidget(wifi_config_button)
 
-        wifi_on_button = QtWidgets.QPushButton(lx("Wifi ON"), objectName="wifiOn")
+        wifi_on_button = QtWidgets.QPushButton(lx("ON"), objectName="wifiOn")
         wifi_on_button.clicked.connect(self.wifi_on_button_click)
         wifi_set.addWidget(wifi_on_button)
 
-        wifi_off_button = QtWidgets.QPushButton(lx("Wifi OFF"), objectName="wifiOff")
+        wifi_off_button = QtWidgets.QPushButton(lx("OFF"), objectName="wifiOff")
         wifi_off_button.clicked.connect(self.wifi_off_button_click)
         wifi_set.addWidget(wifi_off_button)
         wifi_buttons.addLayout(wifi_set, 0)
@@ -79,11 +80,11 @@ class LmActions:
         wifi_guest_config_button.setMinimumWidth(BUTTON_WIDTH)
         guest_wifi_set.addWidget(wifi_guest_config_button)
 
-        guest_wifi_on_button = QtWidgets.QPushButton(lx("Guest ON"), objectName="guestWifiOn")
+        guest_wifi_on_button = QtWidgets.QPushButton(lx("ON"), objectName="guestWifiOn")
         guest_wifi_on_button.clicked.connect(self.guest_wifi_on_button_click)
         guest_wifi_set.addWidget(guest_wifi_on_button)
 
-        guest_wifi_off_button = QtWidgets.QPushButton(lx("Guest OFF"), objectName="guestWifiOff")
+        guest_wifi_off_button = QtWidgets.QPushButton(lx("OFF"), objectName="guestWifiOff")
         guest_wifi_off_button.clicked.connect(self.guest_wifi_off_button_click)
         guest_wifi_set.addWidget(guest_wifi_off_button)
         wifi_buttons.addLayout(guest_wifi_set, 0)
@@ -91,14 +92,17 @@ class LmActions:
         scheduler_set = QtWidgets.QHBoxLayout()
         scheduler_set.setSpacing(20)
 
-        scheduler_on_button = QtWidgets.QPushButton(lx("Wifi Scheduler ON"), objectName="schedulerOn")
+        scheduler_config_button = QtWidgets.QPushButton(lx("Scheduler..."), objectName="schedulerConfig")
+        scheduler_config_button.clicked.connect(self.scheduler_config_button_click)
+        scheduler_config_button.setMinimumWidth(BUTTON_WIDTH)
+        scheduler_set.addWidget(scheduler_config_button)
+
+        scheduler_on_button = QtWidgets.QPushButton(lx("ON"), objectName="schedulerOn")
         scheduler_on_button.clicked.connect(self.scheduler_on_button_click)
-        scheduler_on_button.setMinimumWidth(BUTTON_WIDTH)
         scheduler_set.addWidget(scheduler_on_button)
 
-        scheduler_off_button = QtWidgets.QPushButton(lx("Wifi Scheduler OFF"), objectName="schedulerOff")
+        scheduler_off_button = QtWidgets.QPushButton(lx("OFF"), objectName="schedulerOff")
         scheduler_off_button.clicked.connect(self.scheduler_off_button_click)
-        scheduler_off_button.setMinimumWidth(BUTTON_WIDTH)
         scheduler_set.addWidget(scheduler_off_button)
         wifi_buttons.addLayout(scheduler_set, 0)
 
@@ -337,6 +341,25 @@ class LmActions:
                         self.display_error(mx("Something failed while trying to set wifi configuration.", "wifiSetConfErr"))
                 finally:
                     self._task.end()
+
+
+    ### Click on Wifi scheduler config button
+    def scheduler_config_button_click(self):
+        self._task.start(lx("Getting Wifi Scheduler Configuration..."))
+        try:
+            schedule = self._api._wifi.get_schedule()
+        finally:
+            self._task.end()
+        scheduler_dialog = SchedulerDialog(self, schedule)
+        if scheduler_dialog.exec():
+            self._task.start(lx("Setting Wifi Scheduler Configuration..."))
+            try:
+                schedule = scheduler_dialog.get_schedule()
+                self._api._wifi.set_schedule(schedule)
+            except Exception as e:
+                self.display_error(str(e))
+            finally:
+                self._task.end()
 
 
     ### Click on Wifi ON button
