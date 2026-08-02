@@ -156,7 +156,7 @@ class AddGraphDialog(QtWidgets.QDialog):
 
 
     def udpdate_infos(self):
-     # Update infos according to selected object
+        # Update infos according to selected object
         type = self.get_type()
         key = self.get_object_key()
         if type == GraphType.INTERFACE:
@@ -166,7 +166,7 @@ class AddGraphDialog(QtWidgets.QDialog):
             table = self._app._graph_valid_devices
             frequency = self._app._stat_frequency_devices
 
-  # Search key in the table
+        # Search key in the table
         entry = next((o for o in table if o[0] == key), ["", 0, ""])
         measure_nb = entry[1]
         history = measure_nb / ( 60 / frequency) / 60
