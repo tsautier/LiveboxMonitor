@@ -13,6 +13,7 @@ from LiveboxMonitor.app.LmIcons import LmIcon
 from LiveboxMonitor.app.LmTableWidget import LmTableWidget
 from LiveboxMonitor.api.LmSession import LmSession
 from LiveboxMonitor.api.LmApiRegistry import ApiRegistry
+from LiveboxMonitor.dlg.LmScheduler import SchedulerDialog
 from LiveboxMonitor.dlg.LmRebootHistory import RebootHistoryDialog
 from LiveboxMonitor.dlg.LmCallApi import CallApiDialog
 from LiveboxMonitor.tabs.LmInfoTab import InfoCol, StatsCol
@@ -104,6 +105,10 @@ class LmRepeater:
         if repeater._model >= 6:     # Scheduler available only starting WR6
             buttons_set2 = QtWidgets.QHBoxLayout()
             buttons_set2.setSpacing(20)
+
+            scheduler_config_button = QtWidgets.QPushButton(lx("Wifi Scheduler..."), objectName="schedulerConfig")
+            scheduler_config_button.clicked.connect(repeater.scheduler_config_button_click)
+            buttons_set2.addWidget(scheduler_config_button)
 
             scheduler_on_button = QtWidgets.QPushButton(lx("Wifi Scheduler ON"), objectName="schedulerOn")
             scheduler_on_button.clicked.connect(repeater.scheduler_on_button_click)
@@ -755,6 +760,25 @@ class LmRepHandler:
                 self._app._task.end()
         else:
             self._app.display_error(mx("Not signed to repeater.", "noSign"))
+
+
+    ### Click on Wifi scheduler config button
+    def scheduler_config_button_click(self):
+        self._app._task.start(lx("Getting Repeater Scheduler Configuration..."))
+        try:
+            schedule = self._api._wifi.get_schedule()
+        finally:
+            self._app._task.end()
+        scheduler_dialog = SchedulerDialog(self._app, schedule)
+        if scheduler_dialog.exec():
+            self._app._task.start(lx("Setting Repeater Scheduler Configuration..."))
+            try:
+                schedule = scheduler_dialog.get_schedule()
+                self._api._wifi.set_schedule(schedule)
+            except Exception as e:
+                self._app.display_error(str(e))
+            finally:
+                self._app._task.end()
 
 
     ### Click on Wifi Scheduler ON button

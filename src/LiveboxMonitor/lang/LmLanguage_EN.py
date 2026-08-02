@@ -497,8 +497,7 @@ TOOLTIPS = {
         "guestWifiOn": "Allows you to enable the guest Wifi interface of the Livebox.",
         "guestWifiOff": "Allows you to disable the guest Wifi interface of the Livebox.",
         "schedulerConfig": "Allows you to configure the Wifi network scheduler.",
-        "schedulerOn": "Allows you to enable the Wifi scheduler of the Livebox.\n"
-                       "This scheduler must be configured from the Livebox web interface.",
+        "schedulerOn": "Allows you to enable the Wifi scheduler of the Livebox.",
         "schedulerOff": "Allows you to disable the Wifi scheduler of the Livebox.",
         "wifiGlobalStatus": "Allows you to display the global status of Wifi, including the Wifi status of all\n"
                             "potentially connected Orange Wifi repeaters.",
@@ -712,8 +711,8 @@ TOOLTIPS = {
                         "The frequency can be set in the preferences.",
         "wifiOn": "Allows you to enable the repeater's Wifi interface.",
         "wifiOff": "Allows you to disable the repeater's Wifi interface.",
-        "schedulerOn": "Allows you to enable the Wifi scheduler of the repeater.\n"
-                       "This scheduler must be configured from the repeater's web interface.",
+        "schedulerConfig": "Allows you to configure the Wifi scheduler of the repeater.",
+        "schedulerOn": "Allows you to enable the Wifi scheduler of the repeater.",
         "schedulerOff": "Allows you to disable the Wifi scheduler of the repeater.",
         "rebootRepeater": "Allows you to force a reboot of the repeater.",
         "resetRepeater": "Allows you to reset the repeater to factory settings.",

@@ -352,7 +352,7 @@ class WifiApi(LmApi):
         if d:
             schedule = {"Enable": d.get("enable"), "Repeater": True, "Schedule": None}
             if d.get("base") == "Weekly":
-                schedule["Schedule"] = s.get("schedule")
+                schedule["Schedule"] = d.get("schedule")
             return schedule
         return None
 
