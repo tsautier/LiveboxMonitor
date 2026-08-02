@@ -110,13 +110,17 @@ class LmRepeater:
             scheduler_config_button.clicked.connect(repeater.scheduler_config_button_click)
             buttons_set2.addWidget(scheduler_config_button)
 
-            scheduler_on_button = QtWidgets.QPushButton(lx("Wifi Scheduler ON"), objectName="schedulerOn")
-            scheduler_on_button.clicked.connect(repeater.scheduler_on_button_click)
-            buttons_set2.addWidget(scheduler_on_button)
+            scheduler_onoff_hbox = QtWidgets.QHBoxLayout()
 
-            scheduler_off_button = QtWidgets.QPushButton(lx("Wifi Scheduler OFF"), objectName="schedulerOff")
+            scheduler_on_button = QtWidgets.QPushButton(lx("ON"), objectName="schedulerOn")
+            scheduler_on_button.clicked.connect(repeater.scheduler_on_button_click)
+            scheduler_onoff_hbox.addWidget(scheduler_on_button)
+
+            scheduler_off_button = QtWidgets.QPushButton(lx("OFF"), objectName="schedulerOff")
             scheduler_off_button.clicked.connect(repeater.scheduler_off_button_click)
-            buttons_set2.addWidget(scheduler_off_button)
+            scheduler_onoff_hbox.addWidget(scheduler_off_button)
+
+            buttons_set2.addLayout(scheduler_onoff_hbox, 0)
 
         # 3nd action buttons line
         buttons_set3 = QtWidgets.QHBoxLayout()

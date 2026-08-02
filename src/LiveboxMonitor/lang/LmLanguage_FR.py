@@ -844,8 +844,6 @@ LABELS = {
         "RxRate": "TauxRx",
         "TxRate": "TauxTx",
         "Wifi Scheduler...": "Planificateur Wifi...",
-        "Wifi Scheduler ON": "Planificateur Wifi ON",
-        "Wifi Scheduler OFF": "Planificateur Wifi OFF",
         "Reboot Repeater...": "Redémarrer le Répéteur...",
         "Reset Repeater...": "Réinitialiser le Répéteur...",
         "Reboot History...": "Historique Redémarrages...",
