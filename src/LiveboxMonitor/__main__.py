@@ -180,7 +180,7 @@ class LiveboxMonitorUI(QtWidgets.QMainWindow, LmDeviceListTab.LmDeviceList,
                         self.suspend_stats_loop()
                         self.suspend_repeater_stats_loop()
                         self.suspend_tvdecoder_status_loop()
-                    self.graph_tab_click()
+                    QtCore.QTimer.singleShot(0, lambda: self.graph_tab_click())
                 case LmDeviceInfoTab.TAB_NAME:
                     if not NO_THREAD:
                         self.suspend_wifi_stats_loop()
@@ -199,21 +199,21 @@ class LiveboxMonitorUI(QtWidgets.QMainWindow, LmDeviceListTab.LmDeviceList,
                         self.suspend_stats_loop()
                         self.suspend_repeater_stats_loop()
                         self.suspend_tvdecoder_status_loop()
-                    self.dhcp_tab_click()
+                    QtCore.QTimer.singleShot(0, lambda: self.dhcp_tab_click())
                 case LmNatPatTab.TAB_NAME:
                     if not NO_THREAD:
                         self.suspend_wifi_stats_loop()
                         self.suspend_stats_loop()
                         self.suspend_repeater_stats_loop()
                         self.suspend_tvdecoder_status_loop()
-                    self.nat_pat_tab_click()
+                    QtCore.QTimer.singleShot(0, lambda: self.nat_pat_tab_click())
                 case LmPhoneTab.TAB_NAME:
                     if not NO_THREAD:
                         self.suspend_wifi_stats_loop()
                         self.suspend_stats_loop()
                         self.suspend_repeater_stats_loop()
                         self.suspend_tvdecoder_status_loop()
-                    self.phone_tab_click()
+                    QtCore.QTimer.singleShot(0, lambda: self.phone_tab_click())
                 case LmActionsTab.TAB_NAME:
                     if not NO_THREAD:
                         self.suspend_wifi_stats_loop()
@@ -232,7 +232,7 @@ class LiveboxMonitorUI(QtWidgets.QMainWindow, LmDeviceListTab.LmDeviceList,
                         self.suspend_stats_loop()
                         self.suspend_repeater_stats_loop()
                         self.resume_tvdecoder_status_loop()
-                    self.tvdecoder_tab_click(tab.property("Key"))
+                    QtCore.QTimer.singleShot(0, lambda: self.tvdecoder_tab_click(tab.property("Key")))
 
 
     ### Handle move of tab event
