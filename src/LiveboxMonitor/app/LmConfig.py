@@ -549,8 +549,8 @@ class LmConf:
                 LmConf.LogLevel = int(p)
                 if LmConf.LogLevel < 0:
                     LmConf.LogLevel = 0
-                elif LmConf.LogLevel > 2:
-                    LmConf.LogLevel = 2
+                elif LmConf.LogLevel > 3:
+                    LmConf.LogLevel = 3
                 LmTools.set_verbosity(LmConf.LogLevel)
             p = config.get("No Release Warning")
             if p is not None:
@@ -961,8 +961,8 @@ class LmConf:
     def set_log_level(level):
         if level < 0:
             level = 0
-        elif level > 2:
-            level = 2
+        elif level > 3:
+            level = 3
         LmConf.LogLevel = level
         LmTools.set_verbosity(level)
         LmConf.save()

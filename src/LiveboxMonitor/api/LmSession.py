@@ -290,7 +290,7 @@ class LmSession:
             data["channelid"] = self._channel_id
 
         # Send request & headers
-        LmTools.log_debug(2, f"Event Request: {data}")
+        LmTools.log_debug(3, f"Event Request: {data}")
         timestamp = datetime.datetime.now()
         try:
             t = self._session.post(f"{self._url}ws",
@@ -298,11 +298,11 @@ class LmSession:
                                    headers=self._sah_event_headers,
                                    timeout=timeout,
                                    verify=self._verify)
-            LmTools.log_debug(2, f"Request duration: {datetime.datetime.now() - timestamp}")
+            LmTools.log_debug(3, f"Request duration: {datetime.datetime.now() - timestamp}")
             t = t.content
         except requests.exceptions.Timeout as e:
             if not silent:
-                LmTools.log_debug(2, f"Event request timeout error: {e}")
+                LmTools.log_debug(3, f"Event request timeout error: {e}")
             return {"error": 2, "description": "Event request timeout"}
         except Exception as e:
             if not silent:
@@ -326,11 +326,11 @@ class LmSession:
         overview = str(r)
         if len(overview) > 50:
             overview = f"{overview[:50]}..."
-        LmTools.log_debug(2, "Reply:", overview)
+        LmTools.log_debug(3, "Reply:", overview)
 
         if "result" in r:
             r = r["result"]
 
-        LmTools.log_debug(2, "-------------------------")
+        LmTools.log_debug(3, "-------------------------")
         self._channel_id = r.get("channelid", 0)
         return r

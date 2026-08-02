@@ -674,12 +674,12 @@ class LmActions:
 
     ### Click on set log level button
     def set_log_level_button_click(self):
-        levels = ["0", "1", "2"]
-        level, ok = QtWidgets.QInputDialog.getItem(None, lx("Log level selection"),
+        levels = ["0 - None", "1 - Infos", "2 - Transactions", "3 - Events"]
+        level, ok = QtWidgets.QInputDialog.getItem(self, lx("Log level selection"),
                                                    lx("Please select a log level:"),
                                                    levels, LmConf.LogLevel, False)
         if ok:
-            LmConf.set_log_level(int(level))
+            LmConf.set_log_level(int(level[0]))
 
 
     ### Click on call APIs button
