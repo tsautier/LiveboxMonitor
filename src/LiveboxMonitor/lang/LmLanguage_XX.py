@@ -837,6 +837,7 @@ LABELS = {
         "Sat": "",
         "Sun": "",
         "Apply": "",
+        "Apply to all repeaters": "",
         "OK": "",
         "Cancel": "",
         "Schedule Editor": "",
@@ -1740,6 +1741,7 @@ TOOLTIPS = {
         "actionCombo": "",
         "days": "",
         "apply": "",
+        "syncRepeaters": "",
         "ok": "",
         "cancel": ""
     },

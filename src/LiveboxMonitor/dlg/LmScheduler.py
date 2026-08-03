@@ -27,9 +27,11 @@ class SchedulerDialog(QtWidgets.QDialog):
         self.resize(820, 420)
 
         # Internal context: if None supplied, create default full-activation schedule
-        self._repeater = False
+        self._wifi_mode = False     # Wifi scheduler mode
+        self._repeater = False      # Wifi repeater scheduler mode
         self._schedule = self.make_default_schedule() if schedule is None else self.convert_livebox_schedule(schedule)
         self.normalize_schedule()
+        schedule_type = self._schedule.get("Type")
 
         # Top controls: global enable checkbox
         self._global_enable_checkbox = QtWidgets.QCheckBox(lx("Enable Schedule"), objectName="globalEnable")
@@ -91,25 +93,32 @@ class SchedulerDialog(QtWidgets.QDialog):
         editor_layout.addWidget(self._apply_button, 2, 5, alignment=QtCore.Qt.AlignmentFlag.AlignRight)
 
         # OK / Cancel
+        self._sync_repeaters_checkbox = QtWidgets.QCheckBox(lx("Apply to all repeaters"), objectName="syncRepeaters")
         ok_button = QtWidgets.QPushButton(lx("OK"), objectName="ok")
         ok_button.clicked.connect(self.accept)
         ok_button.setDefault(True)
         cancel_button = QtWidgets.QPushButton(lx("Cancel"), objectName="cancel")
         cancel_button.clicked.connect(self.reject)
+        button_bar = QtWidgets.QHBoxLayout()
+        button_bar.setSpacing(10)
+        if self._wifi_mode:
+            button_bar.addWidget(self._sync_repeaters_checkbox, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
         hbox = QtWidgets.QHBoxLayout()
         hbox.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight)
         hbox.setSpacing(10)
         hbox.addStretch(1)
         hbox.addWidget(ok_button, 0, QtCore.Qt.AlignmentFlag.AlignRight)
         hbox.addWidget(cancel_button, 0, QtCore.Qt.AlignmentFlag.AlignRight)
+        button_bar.addLayout(hbox)
 
         # Layout assembly
         vbox = QtWidgets.QVBoxLayout(self)
         vbox.setSpacing(25)
-        vbox.addWidget(self._global_enable_checkbox, 0)
+        if self._wifi_mode:
+            vbox.addWidget(self._global_enable_checkbox, 0)
         vbox.addWidget(self._timeline, 0)
         vbox.addWidget(editor_group, 0)
-        vbox.addLayout(hbox, 1)
+        vbox.addLayout(button_bar, 1)
 
         LmConfig.set_tooltips(self, "scheduler")
 
@@ -133,6 +142,11 @@ class SchedulerDialog(QtWidgets.QDialog):
     # Get schedule in repeater format
     def get_repeater_schedule(self):
         return SchedulerDialog.convert_internal_to_repeater_schedule(self._schedule)
+
+
+    # Get sync repeaters option
+    def get_sync_repeaters_option(self):
+        return self._sync_repeaters_checkbox.isChecked()
 
 
     # Global enable checkbox clicked
@@ -254,8 +268,12 @@ class SchedulerDialog(QtWidgets.QDialog):
                 LmTools.error("Schedule is not a dictionnary")
                 return SchedulerDialog.make_default_schedule()
 
+            sched_type = schedule.get("Type", "Wifi")
+            self._wifi_mode = (sched_type == "Wifi") or (sched_type == "Repeater")
+
             if schedule.get("Schedule"):
-                if schedule.get("Repeater", False):
+                self._wifi_mode = True
+                if sched_type == "Repeater":
                     self._repeater = True
                     return SchedulerDialog.convert_repeater_schedule_to_internal(schedule)
                 else:
@@ -421,7 +439,7 @@ class SchedulerDialog(QtWidgets.QDialog):
 
         return {
             "Enable": internal_schedule["Enable"],
-            "Repeater": False,
+            "Type": "Wifi",
             "Schedule": schedule_list
         }
 
@@ -473,7 +491,7 @@ class SchedulerDialog(QtWidgets.QDialog):
 
         return {
             "Enable": internal_schedule["Enable"],
-            "Repeater": True,
+            "Type": "Repeater",
             "Schedule": schedule_list
         }
 

@@ -340,7 +340,7 @@ class WifiApi(LmApi):
                 s = s.get("Schedules")
             else:
                 s = None
-            return {"Enable": d.get("Type") == "Scheduled", "Repeater": False, "Schedule": s}
+            return {"Enable": d.get("Type") == "Scheduled", "Type": "Wifi", "Schedule": s}
 
         LmTools.error("PowerManagement:getProfiles - No WiFi profile")
         return None
@@ -350,7 +350,7 @@ class WifiApi(LmApi):
     def get_schedule_repeater(self):
         d = self.get_complete_schedules()
         if d:
-            schedule = {"Enable": d.get("enable"), "Repeater": True, "Schedule": None}
+            schedule = {"Enable": d.get("enable"), "Type": "Repeater", "Schedule": None}
             if d.get("base") == "Weekly":
                 schedule["Schedule"] = d.get("schedule")
             return schedule
@@ -359,7 +359,7 @@ class WifiApi(LmApi):
 
     ### Set Wifi scheduler schedule
     def set_schedule(self, schedule):
-        if schedule.get("Repeater", False):
+        if schedule.get("Type", "Wifi") == "Repeater":
             return self.set_schedule_repeater(schedule)
 
         profile = {

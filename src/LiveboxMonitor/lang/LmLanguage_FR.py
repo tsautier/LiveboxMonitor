@@ -732,6 +732,7 @@ LABELS = {
         "Sat": "Sam",
         "Sun": "Dim",
         "Apply": "Appliquer",
+        "Apply to all repeaters": "Appliquer à tous les répéteurs",
         "Cancel": "Annuler",
         "Schedule Editor": "Éditeur Planificateur",
         "Please enter times in HH:MM format (00:00 .. 24:00).": "Veuillez saisir les heures au format HH:MM (00:00 .. 24:00).",
@@ -1659,7 +1660,9 @@ TOOLTIPS = {
         "endEdit": "Fin de la période à ajouter (format HH:MM).",
         "actionCombo": "Sélectionnez s'il s'agit d'une période d'activation ou de désactivation.",
         "days": "Sélectionnez les jours concernés par la période.",
-        "apply": "Applique la période saisie dans le planificateur."
+        "apply": "Applique la période saisie dans le planificateur.",
+        "syncRepeaters": "Sélectionnez cette option pour appliquer la même planification\n"
+                         "à tous vos répéteurs Wifi Orange connectés."
     },
 
     # Actions - Backup & Restore

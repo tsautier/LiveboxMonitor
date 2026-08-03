@@ -356,6 +356,17 @@ class LmActions:
             try:
                 schedule = scheduler_dialog.get_schedule()
                 self._api._wifi.set_schedule(schedule)
+
+                # Sync repeater's schedules if asked
+                if scheduler_dialog.get_sync_repeaters_option():
+                    schedule = scheduler_dialog.get_repeater_schedule()
+                    for r in self._repeaters:
+                        try:
+                            if r.is_signed() and r.has_scheduler():
+                                r._api._wifi.set_schedule(schedule)
+                        except Exception as e:
+                            self.display_error(str(e))
+
             except Exception as e:
                 self.display_error(str(e))
             finally:

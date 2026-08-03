@@ -102,7 +102,7 @@ class LmRepeater:
         buttons_set1.addWidget(wifi_off_button)
 
         # 2nd action buttons line
-        if repeater._model >= 6:     # Scheduler available only starting WR6
+        if repeater.has_scheduler():
             buttons_set2 = QtWidgets.QHBoxLayout()
             buttons_set2.setSpacing(20)
 
@@ -135,7 +135,7 @@ class LmRepeater:
         buttons_set3.addWidget(reset_repeater_button)
 
         # 4nd action buttons line
-        if repeater._model >= 6:     # Reboot history available only starting WR6
+        if repeater.has_reboot_history():
             buttons_set4 = QtWidgets.QHBoxLayout()
             buttons_set4.setSpacing(20)
 
@@ -161,10 +161,10 @@ class LmRepeater:
         group_box_layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
         group_box_layout.setSpacing(20)
         group_box_layout.addLayout(buttons_set1, 0)
-        if repeater._model >= 6:     # Scheduler available only starting WR6
+        if repeater.has_scheduler():
             group_box_layout.addLayout(buttons_set2, 0)
         group_box_layout.addLayout(buttons_set3, 0)
-        if repeater._model >= 6:     # Reboot history available only starting WR6
+        if repeater.has_reboot_history():
             group_box_layout.addLayout(buttons_set4, 0)
         group_box_layout.addLayout(buttons_set5, 0)
         group_box.setLayout(group_box_layout)
@@ -608,6 +608,16 @@ class LmRepHandler:
                 self._app._tab_widget.setTabIcon(self.tab_index(), QtGui.QIcon(LmIcon.CrossPixmap))
 
 
+    ### Check if has Wifi scheduler feature
+    def has_scheduler(self):
+        return self._model >= 6     # Scheduler available only starting WR6
+
+
+    ### Check if has reboot history feature
+    def has_reboot_history(self):
+        return self._model >= 6     # Reboot history available only starting WR6
+
+
     ### Find Repeater stats line from stat key
     def find_stats_line(self, stats_key):
         if self._stats_list and stats_key:
@@ -768,21 +778,35 @@ class LmRepHandler:
 
     ### Click on Wifi scheduler config button
     def scheduler_config_button_click(self):
-        self._app._task.start(lx("Getting Repeater Scheduler Configuration..."))
-        try:
-            schedule = self._api._wifi.get_schedule()
-        finally:
-            self._app._task.end()
-        scheduler_dialog = SchedulerDialog(self._app, schedule)
-        if scheduler_dialog.exec():
-            self._app._task.start(lx("Setting Repeater Scheduler Configuration..."))
+        if self.is_signed():
+            self._app._task.start(lx("Getting Repeater Scheduler Configuration..."))
             try:
-                schedule = scheduler_dialog.get_schedule()
-                self._api._wifi.set_schedule(schedule)
-            except Exception as e:
-                self._app.display_error(str(e))
+                schedule = self._api._wifi.get_schedule()
             finally:
                 self._app._task.end()
+            scheduler_dialog = SchedulerDialog(self._app, schedule)
+            if scheduler_dialog.exec():
+                self._app._task.start(lx("Setting Repeater Scheduler Configuration..."))
+                try:
+                    schedule = scheduler_dialog.get_schedule()
+
+                    # Sync all repeater's schedules if asked
+                    if scheduler_dialog.get_sync_repeaters_option():
+                        for r in self._app._repeaters:
+                            try:
+                                if r.is_signed() and r.has_scheduler():
+                                    r._api._wifi.set_schedule(schedule)
+                            except Exception as e:
+                                self._app.display_error(str(e))
+                    else:
+                        # Otherwise apply to current repeater only
+                        self._api._wifi.set_schedule(schedule)
+                except Exception as e:
+                    self._app.display_error(str(e))
+                finally:
+                    self._app._task.end()
+        else:
+            self._app.display_error(mx("Not signed to repeater.", "noSign"))
 
 
     ### Click on Wifi Scheduler ON button

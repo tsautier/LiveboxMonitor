@@ -592,7 +592,9 @@ TOOLTIPS = {
         "endEdit": "End of the period to add (HH:MM format).",
         "actionCombo": "Select whether this is an activation or deactivation period.",
         "days": "Select the days covered by the period.",
-        "apply": "Applies the period entered in the scheduler."
+        "apply": "Applies the period entered in the scheduler.",
+        "syncRepeaters": "Select this option to apply the same schedule to all\n"
+                         "your connected Orange Wi-Fi repeaters."
     },
 
     # Actions - Backup & Restore
