@@ -12,7 +12,7 @@ from LiveboxMonitor.app.LmConfig import LmConf, set_application_style
 from LiveboxMonitor.dlg.LmPrefs import PrefsDialog
 from LiveboxMonitor.dlg.LmEmailSetup import EmailSetupDialog
 from LiveboxMonitor.dlg.LmWifiConfig import WifiConfigDialog
-from LiveboxMonitor.dlg.LmScheduler import SchedulerDialog
+from LiveboxMonitor.dlg.LmScheduler import SchedulerDialog, Mode
 from LiveboxMonitor.dlg.LmWifiGlobalStatus import WifiGlobalStatusDialog
 from LiveboxMonitor.dlg.LmRebootHistory import RebootHistoryDialog
 from LiveboxMonitor.dlg.LmFirewall import FirewallLevelDialog
@@ -306,6 +306,9 @@ class LmActions:
         self._task.start(lx("Getting Wifi Configuration..."))
         try:
             c = self._api._wifi.get_config()
+        except Exception as e:
+            LmTools.error(str(e))
+            c = None
         finally:
             self._task.end()
         if (c is None) or (not len(c["Intf"])):
@@ -318,6 +321,8 @@ class LmActions:
                     n = wifi_config_dialog.get_config()
                     if not self._api._wifi.set_config(c, n):
                         self.display_error(mx("Something failed while trying to set wifi configuration.", "wifiSetConfErr"))
+                except Exception as e:
+                    LmTools.error(str(e))
                 finally:
                     self._task.end()
 
@@ -327,6 +332,9 @@ class LmActions:
         self._task.start(lx("Getting Guest Wifi Configuration..."))
         try:
             c = self._api._wifi.get_guest_config()
+        except Exception as e:
+            LmTools.error(str(e))
+            c = None
         finally:
             self._task.end()
         if (c is None) or (not len(c["Intf"])):
@@ -339,6 +347,8 @@ class LmActions:
                     n = wifi_config_dialog.get_config()
                     if not self._api._wifi.set_guest_config(c, n):
                         self.display_error(mx("Something failed while trying to set wifi configuration.", "wifiSetConfErr"))
+                except Exception as e:
+                    LmTools.error(str(e))
                 finally:
                     self._task.end()
 
@@ -348,9 +358,12 @@ class LmActions:
         self._task.start(lx("Getting Wifi Scheduler Configuration..."))
         try:
             schedule = self._api._wifi.get_schedule()
+        except Exception as e:
+            self.display_error(str(e))
+            schedule = None
         finally:
             self._task.end()
-        scheduler_dialog = SchedulerDialog(self, schedule)
+        scheduler_dialog = SchedulerDialog(self, Mode.LBWifi, schedule)
         if scheduler_dialog.exec():
             self._task.start(lx("Setting Wifi Scheduler Configuration..."))
             try:
