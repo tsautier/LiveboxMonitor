@@ -375,15 +375,19 @@ LABELS = {
         "Assign Type...": "",
         "Forget...": "",
         "WakeOnLAN": "",
+        "Scheduler...": "",
         "Block": "",
         "Unblock": "",
         "Device Infos": "",
         "Loading device icons...": "",
+        "Getting device scheduler configuration...": "",
+        "Setting device scheduler configuration...": "",
         "Getting device information...": "",
         "Key": "",
         "Active": "",
         "Authenticated": "",
         "Blocked": "",
+        "Scheduler": "",
         "First connection": "",
         "Last connection": "",
         "Last changed": "",
@@ -1382,8 +1386,8 @@ TOOLTIPS = {
         "assignType": "",
         "forget": "",
         "wol": "",
-        "block": "",
-        "unblock": ""
+        "scheduler": "",
+        "block": ""
     },
 
     # Device infos - Assign name dialog

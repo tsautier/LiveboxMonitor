@@ -238,9 +238,10 @@ TOOLTIPS = {
                   "Warning: if the device in question is active, its connection will not be suspended,\n"
                   "however, all its activity will remain invisible until its next connection attempt.",
         "wol": "Allows you to send a Wake-on-LAN (WOL) signal to the selected device.",
-        "block": "Allows you to block the connection of the selected device.",
-        "unblock": "Allows you to unblock the connection of the selected device.\n"
-                   "The blocked or unblocked state is shown in the device information, \"Blocked\" field."
+        "scheduler": "Allows you to configure the network access scheduler.\n"
+                     "The scheduler status is displayed in the device information.",
+        "block": "Allows you to block/unblock the connection of the selected device.\n"
+                 "The blocked or unblocked state is shown in the device information, \"Blocked\" field."
     },
 
     # Device infos - Assign name dialog

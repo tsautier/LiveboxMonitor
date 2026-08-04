@@ -318,15 +318,19 @@ LABELS = {
         "Assign Name...": "Assigner Nom...",
         "Assign Type...": "Assigner Type...",
         "Forget...": "Oublier...",
+        "Scheduler...": "Planificateur...",
         "Block": "Bloquer",
         "Unblock": "Débloquer",
         "Device Infos": "Infos Appareil",
         "Loading device icons...": "Chargement des icônes...",
+        "Getting device scheduler configuration...": "Chargement de la configuration du planificateur...",
+        "Setting device scheduler configuration...": "Configuration du planificateur...",
         "Getting device information...": "Chargement des informations appareil...",
         "Key": "Identifiant",
         "Active": "Actif",
         "Authenticated": "Authentifié",
         "Blocked": "Bloqué",
+        "Scheduler": "Planificateur",
         "First connection": "Première Connexion",
         "Last connection": "Dernière Connexion",
         "Last changed": "Dernier Changement",
@@ -1303,9 +1307,10 @@ TOOLTIPS = {
                   "Attention si l'appareil en question est actif, sa connexion ne sera nullement suspendue,\n"
                   "cependant toute son activité restera invisible et ce jusqu'à sa prochaine tentative de connexion.",
         "wol": "Permet d'envoyer un signal de réveil sur réseau (WOL) à l'appareil sélectionné.",
-        "block": "Permet de bloquer la connexion de l'appareil sélectionné.",
-        "unblock": "Permet de débloquer la connexion de l'appareil sélectionné.\n"
-                   "L'état bloqué ou non s'affiche dans les informations de l'appareil, champs \"Bloqué\"."
+        "scheduler": "Permet de configurer le planificateur d'accès au réseau.\n"
+                     "L'état du planificateur s'affiche dans les informations de l'appareil.",
+        "block": "Permet de bloquer/débloquer la connexion de l'appareil sélectionné.\n"
+                 "L'état bloqué ou non s'affiche dans les informations de l'appareil, champs \"Bloqué\"."
     },
 
     # Device infos - Assign name dialog

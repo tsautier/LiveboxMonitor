@@ -12,6 +12,8 @@ from LiveboxMonitor.tabs.LmDeviceListTab import DSelCol
 from LiveboxMonitor.tabs.LmInfoTab import InfoCol
 from LiveboxMonitor.dlg.LmDeviceName import SetDeviceNameDialog
 from LiveboxMonitor.dlg.LmDeviceType import SetDeviceTypeDialog
+from LiveboxMonitor.dlg.LmScheduler import SchedulerDialog, Mode
+from LiveboxMonitor.api.LmDeviceApi import DeviceApi
 from LiveboxMonitor.lang.LmLanguages import get_device_info_label as lx, get_device_info_message as mx
 from LiveboxMonitor.tools import LmTools
 
@@ -74,12 +76,12 @@ class LmDeviceInfo:
         wol_button = QtWidgets.QPushButton(lx("WakeOnLAN"), objectName="wol")
         wol_button.clicked.connect(self.wol_button_click)
         buttons_box.addWidget(wol_button)
-        block_device_button = QtWidgets.QPushButton(lx("Block"), objectName="block")
-        block_device_button.clicked.connect(self.block_device_button_click)
-        buttons_box.addWidget(block_device_button)
-        unblock_device_button = QtWidgets.QPushButton(lx("Unblock"), objectName="unblock")
-        unblock_device_button.clicked.connect(self.unblock_device_button_click)
-        buttons_box.addWidget(unblock_device_button)
+        scheduler_button = QtWidgets.QPushButton(lx("Scheduler..."), objectName="scheduler")
+        scheduler_button.clicked.connect(self.scheduler_button_click)
+        buttons_box.addWidget(scheduler_button)
+        self._block_device_button = QtWidgets.QPushButton(lx("Block"), objectName="block")
+        self._block_device_button.clicked.connect(self.block_device_button_click)
+        buttons_box.addWidget(self._block_device_button)
 
         # Layout
         vbox = QtWidgets.QVBoxLayout()
@@ -100,6 +102,7 @@ class LmDeviceInfo:
         self._current_device_livebox_name = None
         self._current_device_dns_name = None
         self._current_device_type = ""
+        self._current_device_blocked = False
 
 
     ### Get selected device key - returns None if no selection
@@ -237,16 +240,64 @@ class LmDeviceInfo:
                     self.process_device_deleted_event(key)
 
 
-    ### Click on block device button
+    ### Click on scheduler button
+    def scheduler_button_click(self):
+        key = self.get_selected_device_key()
+        if key:
+            self._task.start(lx("Getting device scheduler configuration..."))
+            try:
+                schedule = self._api._device.get_schedule_scheduler(key)
+            except Exception as e:
+                self.display_error(str(e))
+                schedule = None
+            finally:
+                self._task.end()
+            scheduler_dialog = SchedulerDialog(self, Mode.Device, schedule)
+            if scheduler_dialog.exec():
+                self._task.start(lx("Setting device scheduler configuration..."))
+                try:
+                    schedule = scheduler_dialog.get_schedule()
+                    self._api._device.set_schedule_scheduler(key, schedule)
+                except Exception as e:
+                    self.display_error(str(e))
+                else:
+                    # Forcing update as changing schedule doesn't trigger Device event
+                    # Scheduler events exist but are useless (no info such as device key)
+                    self.info_device_list_click()
+                finally:
+                    self._task.end()
+
+
+    ### Handle a blocked status change
+    def update_blocked_status(self, blocked):
+        if blocked != self._current_device_blocked:
+            self._block_device_button.setText(lx("Unblock") if blocked else lx("Block"))
+            self._current_device_blocked = blocked
+
+
+    ### Click on block device button - block or unblock depending on device's status
     def block_device_button_click(self):
         key = self.get_selected_device_key()
         if key:
-            try:
-                self._api._device.block(key)
-            except Exception as e:
-                self.display_error(str(e))
+            if self._current_device_blocked:
+                ### Unblock mode
+                try:
+                    r = self._api._device.unblock(key)
+                except Exception as e:
+                    self.display_error(str(e))
+                else:
+                    if r:
+                        self.display_status(mx("Device [{}] now unblocked.", "devUnblocked").format(key))
+                    else:
+                        self.display_status(mx("Device [{}] is not blocked.", "devNotBlocked").format(key))
             else:
-                self.display_status(mx("Device [{}] now blocked.", "devBlocked").format(key))
+                ### Block mode
+                try:
+                    self._api._device.block(key)
+                except Exception as e:
+                    self.display_error(str(e))
+                else:
+                    self.display_status(mx("Device [{}] now blocked.", "devBlocked").format(key))
 
 
     ### Click on unblock device button
@@ -281,12 +332,18 @@ class LmDeviceInfo:
             i = self.add_info_line(self._info_alist, i, lx("Active"), LmTools.fmt_bool(d.get("Active")))
             i = self.add_info_line(self._info_alist, i, lx("Authenticated"), LmTools.fmt_bool(d.get("AuthenticationState")))
 
+            blocked = False
             try:
-                blocked = self._api._device.is_blocked(device_key)
+                schedule = self._api._device.get_schedule(device_key)
+                blocked = DeviceApi.is_sched_blocked(schedule)
                 i = self.add_info_line(self._info_alist, i, lx("Blocked"), LmTools.fmt_bool(blocked))
+                scheduler = DeviceApi.is_sched_scheduler_active(schedule)
+                i = self.add_info_line(self._info_alist, i, lx("Scheduler"), LmTools.fmt_bool(scheduler))
             except Exception as e:
                 LmTools.error(str(e))
                 i = self.add_info_line(self._info_alist, i, lx("Blocked"), "Scheduler:getSchedule query error", LmQtTools.ValQual.Error)
+                i = self.add_info_line(self._info_alist, i, lx("Scheduler"), "Scheduler:getSchedule query error", LmQtTools.ValQual.Error)
+            self.update_blocked_status(blocked)
 
             i = self.add_info_line(self._info_alist, i, lx("First connection"), LmTools.fmt_livebox_timestamp(d.get("FirstSeen")))
             i = self.add_info_line(self._info_alist, i, lx("Last connection"), LmTools.fmt_livebox_timestamp(d.get("LastConnection")))
