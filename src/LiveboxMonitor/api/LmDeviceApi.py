@@ -76,6 +76,36 @@ class DeviceApi(LmApi):
         return d.get("data")
 
 
+    ### Get schedule for scheduler - key is MAC addr - return None if no schedule
+    def get_schedule_scheduler(self, device_key):
+        d = self.get_schedule(device_key)
+        enable = self.is_sched_scheduler_active(d)
+        if d:
+            d = d.get("scheduleInfo")
+        if d:
+            schedule = {"Enable": enable, "Type": "Device", "Schedule": None}
+            if d.get("base") == "Weekly":
+                schedule["Schedule"] = d.get("schedule")
+            return schedule
+        return None
+
+
+    ### Set scheduler schedule for a device - key is MAC addr
+    def set_schedule_scheduler(self, device_key, schedule):
+        enable = schedule.get("Enable", False)
+        if enable:
+            over = ""
+        else:
+            over = "Disable" if self.is_blocked(device_key) else "Enable"
+
+        p = {"base": "Weekly",
+             "def": "Enable",
+             "schedule": schedule.get("Schedule", []),
+             "enable": True,
+             "override": over}
+        self.add_schedule(device_key, p)
+
+
     ### Override device schedule - key is MAC addr
     def override_schedule(self, device_key, override_value):
         self.call("Scheduler", "overrideSchedule", {"type": "ToD", "ID": device_key, "override": override_value})
@@ -116,14 +146,39 @@ class DeviceApi(LmApi):
     ### Check if device is blocked - key is MAC addr
     def is_blocked(self, device_key):
         d = self.get_schedule(device_key)
-        if not d:
+        return self.is_sched_blocked(d)
+
+
+    ### Check if device scheduler is active - key is MAC addr
+    def is_scheduler_active(self, device_key):
+        d = self.get_schedule(device_key)
+        return self.is_sched_scheduler_active(d)
+
+
+    ### Check from a device schedule if the device is WAN blocked
+    @staticmethod
+    def is_sched_blocked(schedule):
+        if not schedule:
             return False
 
-        d = d.get("scheduleInfo")
-        if not d:
+        s = schedule.get("scheduleInfo")
+        if not s:
             return False
 
-        return (d.get("override") == "Disable") and (d.get("value") == "Disable")
+        return (s.get("override") == "Disable") and (s.get("value") == "Disable")
+
+
+    ### Check from a device schedule if the device scheduler is active
+    @staticmethod
+    def is_sched_scheduler_active(schedule):
+        if not schedule:
+            return False
+
+        s = schedule.get("scheduleInfo")
+        if not s:
+            return False
+
+        return (s.get("override") == "") and (s.get("value") == "Enable")
 
 
     ### Delete device from Livebox - key is MAC addr
