@@ -13,22 +13,32 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 
+from enum import IntEnum
+
 from LiveboxMonitor.app import LmConfig
 from LiveboxMonitor.lang.LmLanguages import get_scheduler_label as lx
 from LiveboxMonitor.tools import LmTools
 
 
+# ################################ VARS & DEFS ################################
+
+class Mode(IntEnum):
+    Unknown = 0
+    LBWifi = 1
+    Device = 2
+    Repeater = 3
+
+
 # ################################ Scheduler dialog ################################
 class SchedulerDialog(QtWidgets.QDialog):
-    def __init__(self, parent, schedule=None):
+    def __init__(self, parent, mode=Mode.Unknown, schedule=None):
         super().__init__(parent)
 
         self._app = parent
         self.resize(820, 420)
 
         # Internal context: if None supplied, create default full-activation schedule
-        self._wifi_mode = False     # Wifi scheduler mode
-        self._repeater = False      # Wifi repeater scheduler mode
+        self._mode = mode
         self._schedule = self.make_default_schedule() if schedule is None else self.convert_livebox_schedule(schedule)
         self.normalize_schedule()
         schedule_type = self._schedule.get("Type")
@@ -101,7 +111,7 @@ class SchedulerDialog(QtWidgets.QDialog):
         cancel_button.clicked.connect(self.reject)
         button_bar = QtWidgets.QHBoxLayout()
         button_bar.setSpacing(10)
-        if self._wifi_mode:
+        if (self._mode == Mode.LBWifi) or (self._mode == Mode.Repeater):
             button_bar.addWidget(self._sync_repeaters_checkbox, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
         hbox = QtWidgets.QHBoxLayout()
         hbox.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight)
@@ -114,8 +124,7 @@ class SchedulerDialog(QtWidgets.QDialog):
         # Layout assembly
         vbox = QtWidgets.QVBoxLayout(self)
         vbox.setSpacing(25)
-        if self._wifi_mode:
-            vbox.addWidget(self._global_enable_checkbox, 0)
+        vbox.addWidget(self._global_enable_checkbox, 0)
         vbox.addWidget(self._timeline, 0)
         vbox.addWidget(editor_group, 0)
         vbox.addLayout(button_bar, 1)
@@ -134,14 +143,25 @@ class SchedulerDialog(QtWidgets.QDialog):
 
     # Get schedule in Livebox format
     def get_schedule(self):
-        if self._repeater:
-            return self.get_repeater_schedule()
-        return SchedulerDialog.convert_internal_to_schedule(self._schedule)
+        match self._mode:
+            case Mode.LBWifi:
+                return SchedulerDialog.convert_internal_to_powermgmt_schedule(self._schedule)
+            case Mode.Device:
+                return self.get_device_schedule()
+            case Mode.Repeater:
+                return self.get_repeater_schedule()
+            case Mode.Unknown:
+                return None
+
+
+    # Get schedule in device format
+    def get_device_schedule(self):
+        return SchedulerDialog.convert_internal_to_schedule(self._schedule, "Device")
 
 
     # Get schedule in repeater format
     def get_repeater_schedule(self):
-        return SchedulerDialog.convert_internal_to_repeater_schedule(self._schedule)
+        return SchedulerDialog.convert_internal_to_schedule(self._schedule, "Repeater")
 
 
     # Get sync repeaters option
@@ -269,15 +289,27 @@ class SchedulerDialog(QtWidgets.QDialog):
                 return SchedulerDialog.make_default_schedule()
 
             sched_type = schedule.get("Type", "Wifi")
-            self._wifi_mode = (sched_type == "Wifi") or (sched_type == "Repeater")
+            # Adjust mode to schedule type
+            match sched_type:
+                case "Wifi":
+                    self._mode = Mode.LBWifi
+                case "Device":
+                    self._mode = Mode.Device
+                case "Repeater":
+                    self._mode = Mode.Repeater
+                case _:
+                    self._mode = Mode.Unknown
 
-            if schedule.get("Schedule"):
-                self._wifi_mode = True
-                if sched_type == "Repeater":
-                    self._repeater = True
-                    return SchedulerDialog.convert_repeater_schedule_to_internal(schedule)
-                else:
-                    return SchedulerDialog.convert_schedule_to_internal(schedule)
+            if schedule.get("Schedule") is not None:
+                match self._mode:
+                    case Mode.LBWifi:
+                        return SchedulerDialog.convert_powermgmt_schedule_to_internal(schedule)
+                    case Mode.Device:
+                        return SchedulerDialog.convert_schedule_to_internal(schedule)
+                    case Mode.Repeater:
+                        return SchedulerDialog.convert_schedule_to_internal(schedule)
+                    case _:
+                        return SchedulerDialog.make_default_schedule()
             else:
                 LmTools.log_debug(1, "Empty schedule, use default")
                 return SchedulerDialog.make_default_schedule()
@@ -287,9 +319,9 @@ class SchedulerDialog(QtWidgets.QDialog):
             return SchedulerDialog.make_default_schedule()
 
 
-    # Convert a normal schedule returned by Livebox Wifi API to internal format
+    # Convert a PowerManagement schedule returned by Livebox Wifi API to internal format
     @staticmethod
-    def convert_schedule_to_internal(schedule):
+    def convert_powermgmt_schedule_to_internal(schedule):
         global_enable = schedule.get("Enable", True)
         schedule_dict = schedule.get("Schedule", {})
 
@@ -345,9 +377,9 @@ class SchedulerDialog(QtWidgets.QDialog):
         return {"Enable": global_enable, "Days": days_periods}
 
 
-    # Convert a repeater schedule returned by Livebox Wifi API to internal format
+    # Convert a schedule returned by Livebox Wifi API to internal format
     @staticmethod
-    def convert_repeater_schedule_to_internal(schedule):
+    def convert_schedule_to_internal(schedule):
         global_enable = schedule.get("Enable", True)
         schedule_list = schedule.get("Schedule", [])
 
@@ -413,9 +445,9 @@ class SchedulerDialog(QtWidgets.QDialog):
         return abs_periods
 
 
-    # Convert an internal schedule to normal schedule format used by Livebox Wifi API 
+    # Convert an internal schedule to PowerManagement schedule format used by Livebox Wifi API 
     @staticmethod
-    def convert_internal_to_schedule(internal_schedule):
+    def convert_internal_to_powermgmt_schedule(internal_schedule):
         abs_periods = SchedulerDialog.get_absolute_periods(internal_schedule)
         schedule_list = []
 
@@ -444,9 +476,9 @@ class SchedulerDialog(QtWidgets.QDialog):
         }
 
 
-    # Convert an internal schedule to repeater schedule format used by Livebox Wifi API 
+    # Convert an internal schedule to schedule format used by Livebox API 
     @staticmethod
-    def convert_internal_to_repeater_schedule(internal_schedule):
+    def convert_internal_to_schedule(internal_schedule, type):
         abs_periods = SchedulerDialog.get_absolute_periods(internal_schedule)
         schedule_list = []
 
@@ -491,7 +523,7 @@ class SchedulerDialog(QtWidgets.QDialog):
 
         return {
             "Enable": internal_schedule["Enable"],
-            "Type": "Repeater",
+            "Type": type,
             "Schedule": schedule_list
         }
 
