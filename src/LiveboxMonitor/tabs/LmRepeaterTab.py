@@ -13,7 +13,7 @@ from LiveboxMonitor.app.LmIcons import LmIcon
 from LiveboxMonitor.app.LmTableWidget import LmTableWidget
 from LiveboxMonitor.api.LmSession import LmSession
 from LiveboxMonitor.api.LmApiRegistry import ApiRegistry
-from LiveboxMonitor.dlg.LmScheduler import SchedulerDialog
+from LiveboxMonitor.dlg.LmScheduler import SchedulerDialog, Mode
 from LiveboxMonitor.dlg.LmRebootHistory import RebootHistoryDialog
 from LiveboxMonitor.dlg.LmCallApi import CallApiDialog
 from LiveboxMonitor.tabs.LmInfoTab import InfoCol, StatsCol
@@ -782,9 +782,12 @@ class LmRepHandler:
             self._app._task.start(lx("Getting Repeater Scheduler Configuration..."))
             try:
                 schedule = self._api._wifi.get_schedule()
+            except Exception as e:
+                self._app.display_error(str(e))
+                schedule = None
             finally:
                 self._app._task.end()
-            scheduler_dialog = SchedulerDialog(self._app, schedule)
+            scheduler_dialog = SchedulerDialog(self._app, Mode.Repeater, schedule)
             if scheduler_dialog.exec():
                 self._app._task.start(lx("Setting Repeater Scheduler Configuration..."))
                 try:
