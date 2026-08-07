@@ -333,3 +333,11 @@ def fmt_livebox_timestamp(timestamp, utc=True):
     return date_time.strftime("%Y-%m-%d %H:%M:%S")
 
 
+### Format a unix epoch timestamp
+def fmt_epoch_timestamp(timestamp):
+    if timestamp is None:
+        return ""
+    date_time = datetime.datetime.fromtimestamp(timestamp)
+    if date_time is None:
+        return ""
+    return date_time.strftime("%Y-%m-%d %H:%M:%S")
