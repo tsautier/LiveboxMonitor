@@ -252,6 +252,8 @@ class LmEvents:
                 self.process_device_event(d)
             elif h.startswith("HomeLan"):
                 self.process_home_lan_event(d)
+            elif h.startswith("AutoDiag"):
+                self.process_auto_diag_event(d)
 
 
     ### Process a new Device event
@@ -331,6 +333,14 @@ class LmEvents:
         if h.startswith("HomeLan.Interface.") and h.endswith(".Stats"):
             intf = h[18:-6]
             self.process_intf_statistics_event(intf, a)
+
+
+    ### Process a new AutoDiag event
+    def process_auto_diag_event(self, event_data):
+        if self._autodiag_dialog:
+            o = event_data.get("object")
+            if o:
+                self._autodiag_dialog.process_auto_diag_event(o)
 
 
     ### Store event in buffer, for the UI
@@ -632,7 +642,7 @@ class LiveboxEventThread(LmThread):
 
 
     def task(self):
-        d = self._session.event_request(["Devices.Device", "HomeLan"], timeout=2)
+        d = self._session.event_request(["Devices.Device", "HomeLan", "AutoDiag"], timeout=2)
         if d:
             if d.get("errors"):
                 # Session has probably timed out on Livebox side, resign
