@@ -66,6 +66,7 @@ class LiveboxMonitorUI(QtWidgets.QMainWindow, LmDeviceListTab.LmDeviceList,
         self._reset_flag = False
         self._app_ready = False
         self._status_bar = None
+        self._autodiag_dialog = None
         self._repeaters = []
         self._tvdecoders = []
         if not NO_THREAD:
