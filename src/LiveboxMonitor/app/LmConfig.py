@@ -67,6 +67,7 @@ DCFG_CSV_DELIMITER = ";"
 DCFG_TIMEOUT_MARGIN = 0
 DCFG_PREVENT_SLEEP = True
 DCFG_SAVE_PASSWORDS = True
+DCFG_SPEEDTESTS = None
 
 # Static config
 GIT_REPO = "p-dor/LiveboxMonitor"
@@ -451,6 +452,7 @@ class LmConf:
     TimeoutMargin = DCFG_TIMEOUT_MARGIN
     PreventSleep = DCFG_PREVENT_SLEEP
     SavePasswords = DCFG_SAVE_PASSWORDS
+    SpeedTests = DCFG_SPEEDTESTS
 
 
     ### Load configuration, returns False the program aborts starting
@@ -594,6 +596,10 @@ class LmConf:
             p = config.get("Save Passwords")
             if p is not None:
                 LmConf.SavePasswords = bool(p)
+            p = config.get("Speed Tests")
+            if isinstance(p, dict):
+                # Fix the keys back to integers
+                LmConf.SpeedTests = {int(k): v for k, v in p.items()}
 
         if config_file is not None:
             config_file.close()
@@ -928,6 +934,7 @@ class LmConf:
                 config["Timeout Margin"] = LmConf.TimeoutMargin
                 config["Prevent Sleep"] = LmConf.PreventSleep
                 config["Save Passwords"] = LmConf.SavePasswords
+                config["Speed Tests"] = LmConf.SpeedTests
                 json.dump(config, config_file, indent=4)
         except Exception as e:
             LmTools.error(f"Cannot save configuration file. Error: {e}")
