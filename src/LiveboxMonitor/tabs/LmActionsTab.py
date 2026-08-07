@@ -17,6 +17,7 @@ from LiveboxMonitor.dlg.LmWifiGlobalStatus import WifiGlobalStatusDialog
 from LiveboxMonitor.dlg.LmRebootHistory import RebootHistoryDialog
 from LiveboxMonitor.dlg.LmFirewall import FirewallLevelDialog
 from LiveboxMonitor.dlg.LmPingResponse import PingResponseDialog
+from LiveboxMonitor.dlg.LmSpeedTests import SpeedTestsDialog
 from LiveboxMonitor.dlg.LmDynDns import DynDnsSetupDialog
 from LiveboxMonitor.dlg.LmDmz import DmzSetupDialog
 from LiveboxMonitor.dlg.LmRouting import RoutingSetupDialog
@@ -183,6 +184,11 @@ class LmActions:
         ping_response_button.clicked.connect(self.ping_response_button_click)
         ping_response_button.setMinimumWidth(BUTTON_WIDTH)
         network_buttons.addWidget(ping_response_button)
+
+        speedtests_button = QtWidgets.QPushButton(lx("Speed Tests..."), objectName="speedTests")
+        speedtests_button.clicked.connect(self.speedtests_button_click)
+        speedtests_button.setMinimumWidth(BUTTON_WIDTH)
+        network_buttons.addWidget(speedtests_button)
 
         dyndns_button = QtWidgets.QPushButton(lx("DynDNS..."), objectName="dynDNS")
         dyndns_button.clicked.connect(self.dyndns_button_click)
@@ -642,6 +648,15 @@ class LmActions:
                         self.display_error(str(e))
                 finally:
                     self._task.end()
+
+
+    ### Click on Speed Tests button
+    def speedtests_button_click(self):
+        self._autodiag_dialog = SpeedTestsDialog(self)
+        try:
+            self._autodiag_dialog.exec()
+        finally:
+            self._autodiag_dialog = None
 
 
     ### Click on DynDNS button
