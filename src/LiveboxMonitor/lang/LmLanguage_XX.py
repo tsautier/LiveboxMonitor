@@ -726,6 +726,7 @@ LABELS = {
         "Reboots": "",
         "Firewall Levels...": "",
         "Ping Responses...": "",
+        "Speed Tests..." : "",
         "DynDNS...": "",
         "DMZ...": "",
         "Routing Table...": "",
@@ -893,6 +894,25 @@ LABELS = {
         "OK": "",
         "Cancel": "",
         "Ping Responses": ""
+    },
+
+    # Actions - Speed Tests
+    "speedtests": {
+        "Test": "",
+        "Native": "",
+        "mon-reseau-local.orange.fr": "",
+        "Run": "",
+        "Results": "",
+        "Date/Time:": "",
+        "Down Rate:": "",
+        "Down Latency:": "",
+        "Up Rate:": "",
+        "Up Latency:": "",
+        "Status": "",
+        "OK": "",
+        "Speed Tests": "",
+        "Speed test in progress...": "",
+        "Done.": ""
     },
 
     # Actions - DynDNS
@@ -1668,6 +1688,7 @@ TOOLTIPS = {
         "rebootGroup": "",
         "firewallLevel": "",
         "pingResponse": "",
+        "speedTests": "",
         "dynDNS": "",
         "dmz": "",
         "routingTable": "",
@@ -1792,6 +1813,27 @@ TOOLTIPS = {
         "ipV6Checkbox": "",
         "ok": "",
         "cancel": ""
+    },
+
+    # Actions - Speed Tests
+    "speedtests": {
+        "typeLabel": "",
+        "typeCombo": "",
+        "run": "",
+        "resultsGroup": "",
+        "datetimeLabel": "",
+        "datetime": "",
+        "downrateLabel": "",
+        "downrate": "",
+        "downlatencyLabel": "",
+        "downlatency": "",
+        "uprateLabel": "",
+        "uprate": "",
+        "uplatencyLabel": "",
+        "uplatency": "",
+        "statusGroup": "",
+        "status": "",
+        "ok": ""
     },
 
     # Actions - DynDNS

@@ -513,6 +513,8 @@ TOOLTIPS = {
                          "Useful to detect reboots forced by Orange to update the Livebox software.",
         "firewallLevel": "Allows you to set the levels of the IPv4 and IPv6 firewalls.",
         "pingResponse": "Allows you to set responses to IPv4 and IPv6 ping requests.",
+        "speedTests": "Allows you to run quick speed tests provided by Orange.\n"
+                      "Sites like nperf.com or speedtest.net offer more reliable tests.",
         "dynDNS": "Allows you to assign a domain and fixed host name, easy to remember, to a static or dynamic IP address\n"
                   "or a long URL.\n"
                   "Useful, for example, if you host a website or FTP server behind your Livebox to\n"
@@ -625,8 +627,26 @@ TOOLTIPS = {
 
     # Actions - Ping Response
     "pingr": {
-        "ipV4Checkbox": "Select to respond to IPv4 ping requests.",
-        "ipV6Checkbox": "Select to respond to IPv6 ping requests."
+        "ipV4Checkbox": "Check to respond to IPv4 ping requests.",
+        "ipV6Checkbox": "Check to respond to IPv6 ping requests."
+    },
+
+    # Actions - Speed Tests
+    "speedtests": {
+        "typeCombo": "Select the type of test to perform.\n"
+                     "The native test is a built-in diagnostic integrated into the Livebox.\n"
+                     "The second one is the same as the one offered by the Orange website:\n"
+                     "mon-reseau-local.orange.fr\n"
+                     "None of these tests is very reliable, and sites like nperf.com or\n"
+                     "speedtest.net offer more accurate results.",
+        "run": "Launches the selected test.\n"
+               "It may take up to a minute for the results to appear.",
+        "datetime": "Date and time of the last test.",
+        "downrate": "Download speed in megabits per second.",
+        "downlatency": "Downstream latency in milliseconds.",
+        "uprate": "Upload speed in megabits per second.",
+        "uplatency": "Upload latency in milliseconds.",
+        "status": "Test execution status."
     },
 
     # Actions - DynDNS

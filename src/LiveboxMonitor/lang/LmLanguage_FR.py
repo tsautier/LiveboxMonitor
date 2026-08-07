@@ -634,6 +634,7 @@ LABELS = {
         "Reboots": "Redémarrages",
         "Firewall Levels...": "Niveaux de pare-feu...",
         "Ping Responses...": "Réponses aux pings...",
+        "Speed Tests...": "Tests de débit...",
         "Routing Table...": "Table de routage...",
         "Network": "Réseau",
         "An Open Source project": "Un projet Open Source",
@@ -783,6 +784,22 @@ LABELS = {
         "Respond to IPv6 ping": "Répondre au ping IPv6",
         "Cancel": "Annuler",
         "Ping Responses": "Réponses aux pings"
+    },
+
+    # Actions - Speed Tests
+    "speedtests": {
+        "Native": "Natif",
+        "Run": "Lancer",
+        "Results": "Résultats",
+        "Date/Time:": "Date/Heure:",
+        "Down Rate:": "Taux Descendant:",
+        "Down Latency:": "Latence Descendante:",
+        "Up Rate:": "Taux Montant:",
+        "Up Latency:": "Latence Montante:",
+        "Status": "Statut",
+        "Speed Tests": "Tests de débit",
+        "Speed test in progress...": "Test de débit en cours...",
+        "Done.": "Terminé."
     },
 
     # Actions - DynDNS
@@ -1585,6 +1602,8 @@ TOOLTIPS = {
                          "Utile pour détecter les redémarrages forcés par Orange pour mettre à jour le logiciel de la Livebox.",
         "firewallLevel": "Permet de régler les niveaux des pares-feux IPv4 et IPv6.",
         "pingResponse": "Permet de régler les réponses aux requêtes de ping IPv4 et IPv6.",
+        "speedTests": "Permet d'effectuer des tests de débit rapides proposés par Orange.\n"
+                      "Des sites comme nperf.com ou speedtest.net proposent des tests plus fiables.",
         "dynDNS": "Permet d'attribuer un nom de domaine et d'hôte fixe, facile à mémoriser, à une adresse IP statique\n"
                   "ou dynamique ou à une longue URL.\n"
                   "Utile, par exemple, si vous hébergez un site web ou un serveur FTP derrière votre Livebox pour le\n"
@@ -1697,8 +1716,26 @@ TOOLTIPS = {
 
     # Actions - Ping Response
     "pingr": {
-        "ipV4Checkbox": "Sélectionnez pour répondre aux requêtes de ping IPv4.",
-        "ipV6Checkbox": "Sélectionnez pour répondre aux requêtes de ping IPv6."
+        "ipV4Checkbox": "Cochez pour répondre aux requêtes de ping IPv4.",
+        "ipV6Checkbox": "Cochez pour répondre aux requêtes de ping IPv6."
+    },
+
+    # Actions - Speed Tests
+    "speedtests": {
+        "typeCombo": "Sélectionnez le type de test à effectuer.\n"
+                     "Le natif est un test historique intégré à la Livebox.\n"
+                     "Le second est le même que celui proposé par le site d'Orange :\n"
+                     "mon-reseau-local.orange.fr\n"
+                     "Aucun de ces tests n'est très fiable et des sites comme\n"
+                     "nperf.com ou speedtest.net proposent des résultats plus précis.",
+        "run": "Permet de lancer le test sélectionné.\n"
+               "Les résultats peuvent prendre 1mn à remonter.",
+        "datetime": "Date et heure du dernier test.",
+        "downrate": "Débit descendant en mégabits par seconde.",
+        "downlatency": "Latence descendante en millisecondes.",
+        "uprate": "Débit montant en mégabits par seconde.",
+        "uplatency": "Latence montante en millisecondes.",
+        "status": "Statut d'execution du test."
     },
 
     # Actions - DynDNS
