@@ -151,6 +151,7 @@ class SchedulerDialog(QtWidgets.QDialog):
             case Mode.Repeater:
                 return self.get_repeater_schedule()
             case Mode.Unknown:
+                LmTools.error("Invalid schedule mode")
                 return None
 
 
@@ -298,6 +299,7 @@ class SchedulerDialog(QtWidgets.QDialog):
                 case "Repeater":
                     self._mode = Mode.Repeater
                 case _:
+                    LmTools.error("Invalid schedule type")
                     self._mode = Mode.Unknown
 
             if schedule.get("Schedule") is not None:
@@ -309,6 +311,7 @@ class SchedulerDialog(QtWidgets.QDialog):
                     case Mode.Repeater:
                         return SchedulerDialog.convert_schedule_to_internal(schedule)
                     case _:
+                        LmTools.error("Invalid schedule mode")
                         return SchedulerDialog.make_default_schedule()
             else:
                 LmTools.log_debug(1, "Empty schedule, use default")
