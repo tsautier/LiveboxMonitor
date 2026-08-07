@@ -405,7 +405,7 @@ class CheckableComboBox(QtWidgets.QComboBox):
 
 
 # ############# Label with dynamic height #############
-# Works must better than a QLabel with auto wrap
+# Works much better than a QLabel with auto wrap
 
 class AutoHeightLabel(QtWidgets.QTextEdit):
     def __init__(self, *args, **kwargs):
