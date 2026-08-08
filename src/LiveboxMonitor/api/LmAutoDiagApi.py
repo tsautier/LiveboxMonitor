@@ -24,7 +24,7 @@ class AutoDiagApi(LmApi):
     def execute_diagnostic(self, id, user_requested=True):
         s = self.get_diagnostic_state()
         state = s.get("DiagnosticsState")
-        if state and (state != "Complete"):
+        if state and (state == "Requested"):
             raise LmApiException(f"A diagnostic is already running: {s.get('Diagnostics')}")
         self.call("AutoDiag", "executeDiagnostics", {"id": id, "usr": user_requested})
 
