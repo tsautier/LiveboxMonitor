@@ -3,7 +3,7 @@
 L'application [LiveboxMonitor](https://github.com/p-dor/LiveboxMonitor) est une interface graphique dynamique pour :
 - Contrôler les appareils qui se connectent à la Livebox et détecter rapidement les intrusions,
 - Enregistrer le journal d'activités et recevoir des notifications par email aux connexions ou déconnexions,
-- Obtenir des statistiques détaillées de trafic, par appareil, global,
+- Obtenir des statistiques détaillées de trafic, par appareil, ou globalement,
 - Visualiser graphiquement les statistiques de trafic sur plusieurs jours, par appareil ou par interface,
 - Obtenir beaucoup de détails sur la Livebox elle-même et contrôler la qualité de sa ligne fibre,
 - Avoir beaucoup de détails sur les appareils qui se connectent (actifs ou non),
@@ -50,7 +50,7 @@ L'application est dynamique car elle réagit aux événements envoyés par la Li
 
 ## Installation <a id="install"></a>
 
-L'application est écrite en [Python 3.11](https://www.python.org/downloads/) et est basée sur [PyQT 6](https://pypi.org/project/PyQt6/) pour l'interface graphique et sur [PyQtGraph](https://www.pyqtgraph.org/) pour les graphes statistiques.
+L'application est écrite en [Python 3.11](https://www.python.org/downloads/) et est basée sur [PyQt6](https://pypi.org/project/PyQt6/) pour l'interface graphique et sur [PyQtGraph](https://www.pyqtgraph.org/) pour les graphes statistiques.
 
 Les autres dépendances sont `requests`, `cryptography`, `wakepy`, `xmltodict` et `python-dateutil`.
 
@@ -152,7 +152,7 @@ L'interface se veut intuitive mais il vaut mieux se reporter à la documentation
 Les points importants à comprendre avant de commencer :
 - La connexion s'établit avec exactement les mêmes informations que pour accéder à l'interface Web de configuration de la Livebox. Pour l'URL il faut essayer http://livebox.home/, http://livebox/ ou http://192.168.1.1/. Pour l'utilisateur il faut laisser à la valeur par défaut `admin`. Et pour le mot de passe c'est soit ce que vous avez indiqué vous-même soit le mot de passe d'origine. Plus d'informations [ici pour la Livebox 5](https://assistance.orange.fr/livebox-modem/toutes-les-livebox-et-modems/installer-et-utiliser/piloter-et-parametrer-votre-materiel/l-interface-de-configuration/livebox-5-acceder-a-l-interface-de-configuration_292471-827404), ou [ici pour la Livebox 6](https://assistance.orange.fr/livebox-modem/toutes-les-livebox-et-modems/installer-et-utiliser/piloter-et-parametrer-votre-materiel/l-interface-de-configuration/livebox-6-acceder-a-l-interface-de-configuration_363963-897414).
 - Il est normal que lors du premier lancement de l'application tous les appareils soient marqués comme inconnus (**INCONNU** en rouge). En effet un des buts de ce programme est d'identifier rapidement des appareils inconnus connectés sur le réseau grâce à une base de noms locale (le fichier `MacAddrTable.txt`). Il faut donc commencer par nommer chaque appareil que vous jugez légitime grâce au bouton `Assigner Nom...` de l'onglet `Infos Appareil`. Cette base locale constituera la référence de confiance de tous les appareils légitimes sur votre réseau. Le bouton `Assigner Noms...` de l'onglet `Appareils` vous permettra aussi de facilement assigner le même nom que celui qui a été donné à la Livebox automatiquement pour tous vos appareils.
-- Il est normal que les statistiques réseau apparaissent et disparaissent. En effet le programme rafraîchit ces statistiques toutes les 3 secondes par défaut (ou toutes les 30 secondes dans certains cas), et si d'un rafraîchissement à l'autre il n'y a pas eu de transfert la case devient vide. Ce choix a été fait pour permettre de mieux visualiser les cases non-vides, là où il se passe quelque chose.
+- Il est normal que les statistiques réseau apparaissent et disparaissent. En effet le programme rafraîchit ces statistiques toutes les 3 secondes par défaut (ou toutes les 30 secondes dans certains cas), et si d'un rafraîchissement à l'autre il n'y a pas eu de transfert la case devient vide. Ce choix a été fait pour permettre de mieux visualiser les cases non vides, là où il se passe quelque chose.
 - Tous les onglets peuvent être déplacés à la souris pour être mis dans l'ordre qui vous convient. Cet ordre sera restauré au prochain lancement du programme.
 - Toutes les colonnes dans le programme sont redimensionnables à la souris sauf certaines qui s'élargissent dynamiquement en fonction de la taille de la fenêtre. Donc, en fonction de la situation, vous pouvez soit redimensionner la colonne soit la fenêtre avec la souris pour ajuster la largeur d'une colonne.
 - On peut copier la valeur de n'importe quelle cellule de liste dans le presse-papiers. Pour cela il suffit de cliquer sur la cellule et de taper Ctrl-C.
@@ -174,7 +174,7 @@ Que se passe-t-il au lancement du programme ?
 - Sinon, le programme parcourt la liste des profils et cherche si une Livebox avec la même adresse physique que celle associée au profil répond à l'URL du profil. Le premier profil qui répond à ces critères est sélectionné.
 - Si aucun profil trouvé, le programme affiche un dialogue pour sélectionner le profil à utiliser.
 
-Le dialogue de sélection de profils vous prévient si vous tentez d'utiliser un profil pour une Livebox différente de celle avec lequel il est normalement associé. Si vous validez le dialogue, le profil sera mis à jour pour être associé à cette nouvelle Livebox. Le dialogue de sélection de profils vous permet aussi de créer un nouveau profil si aucun dans la liste ne convient.
+Le dialogue de sélection de profils vous prévient si vous tentez d'utiliser un profil pour une Livebox différente de celle avec laquelle il est normalement associé. Si vous validez le dialogue, le profil sera mis à jour pour être associé à cette nouvelle Livebox. Le dialogue de sélection de profils vous permet aussi de créer un nouveau profil si aucun dans la liste ne convient.
 
 
 ## Options de ligne de commande <a id="commandline"></a>
@@ -205,8 +205,8 @@ Ou alors si vous avez configuré un DynDNS : https://monNomDeDomaine.com:monPort
     - Windows : `%APPDATA%\LiveboxMonitor`
     - MacOS : `~/Library/Application Support/LiveboxMonitor`
 
-Le programme créé automatiquement dans son répertoire de configuration trois fichiers :
-- `Key.txt` : clef de chiffrement unique générée pour crypter tous les mots de passe. Cette clef est elle-même cryptée avec une clef qui est calculée par le programme à partir des caractéristiques uniques de votre PC (y compris son nom). Si quelque chose de significatif change sur votre PC (le processeur, l'OS, son nom, etc), cette clef sera régénérée automatiquement et tous vos mots de passe devront être ressaisis.
+Le programme crée automatiquement dans son répertoire de configuration trois fichiers :
+- `Key.txt` : clé de chiffrement unique générée pour crypter tous les mots de passe. Cette clé est elle-même cryptée avec une clé qui est calculée par le programme à partir des caractéristiques uniques de votre PC (y compris son nom). Si quelque chose de significatif change sur votre PC (le processeur, l'OS, son nom, etc), cette clé sera régénérée automatiquement et tous vos mots de passe devront être ressaisis.
 - `Config.txt` : contient tous les paramètres de l'application (format JSON).
 - `MacAddrTable.txt` : contient la correspondance entre les adresses MAC et les noms d'appareil (format JSON).
 
@@ -214,13 +214,13 @@ Le programme créé automatiquement dans son répertoire de configuration trois 
 
 Ce fichier JSON est géré automatiquement par l'application et il ne devrait pas être nécessaire de l'éditer. Les réglages principaux se font via le bouton `Préférences...` de l'onglet `Actions`.  
 À savoir :  
-- Les mots de passe y sont stockés cryptés grace à la clef de chiffrement du fichier `Key.txt`.
-- La clef `Repeaters` est générée automatiquement par le programme si des mots de passe différents sont utilisés pour le ou les répéteurs Wifi Orange connectés. La structure de ce paramètre est aussi au format JSON, utilise pour clef les adresses MAC des répéteurs, et référence pour chaque répéteur les valeurs 'User' & 'Password'.
+- Les mots de passe y sont stockés cryptés grâce à la clé de chiffrement du fichier `Key.txt`.
+- La clé `Repeaters` est générée automatiquement par le programme si des mots de passe différents sont utilisés pour le ou les répéteurs Wifi Orange connectés. La structure de ce paramètre est aussi au format JSON, utilise pour clé les adresses MAC des répéteurs, et référence pour chaque répéteur les valeurs 'User' & 'Password'.
 
 ### Le fichier MacAddrTable.txt
 
 Ce fichier JSON est géré automatiquement par l'application et il ne devrait pas être nécessaire de l'éditer.
-Les clefs correspondent aux adresses MAC des appareils et les valeurs au nom attribué.
+Les clés correspondent aux adresses MAC des appareils et les valeurs au nom attribué.
 Tout appareil détecté dont l'adresse MAC n'est pas répertoriée sera affiché comme 'INCONNU' en rouge. Cette fonctionnalité est surtout utile pour détecter les nouveaux appareils ou des tentatives d'intrusions.
 
 Pourquoi utiliser une base de noms locale alors que la Livebox stocke aussi des noms ?
@@ -256,7 +256,7 @@ La liste des appareils affiche les colonnes suivantes :
 - **Nom** : nom local de l'appareil. Ce nom peut être attribué, changé ou supprimé via le bouton `Assigner Nom...` de l'onglet `Infos Appareil`.
 - **Nom Livebox** : nom de l'appareil tel que paramétré dans la Livebox et visible dans l'interface Web de la Livebox. Ce nom peut être attribué, changé ou supprimé via le bouton `Assigner Nom...` de l'onglet `Infos Appareil`.
 - **MAC** : adresse MAC, aussi appelée adresse physique de l'appareil.
-- **IP** : adresse IP v4 de l'appareil sur le LAN. Cette adresse s'affiche en caractères gras si cette adresse est réservée pour cet appareil dans la configuration DHCP de la Livebox. Et elle s'affiche en rouge si l'adresse n'est pas atteignable sur le réseau (unreacheable), typiquement lorsque l'appareil n'est pas actif.
+- **IP** : adresse IP v4 de l'appareil sur le LAN. Cette adresse s'affiche en caractères gras si cette adresse est réservée pour cet appareil dans la configuration DHCP de la Livebox. Et elle s'affiche en rouge si l'adresse n'est pas atteignable sur le réseau (unreachable), typiquement lorsque l'appareil n'est pas actif.
 - **Accès** : point d'accès de l'appareil sur le réseau. D'abord le nom de l'appareil, c'est-à-dire la Livebox elle-même ou le nom d'un des répéteurs Wifi Orange connectés, et ensuite l'interface sur cet appareil. `Eth` signifie une des prises Ethernet suivi du numéro de prise. `Wifi` signifie une connexion Wifi suivi par la bande de connexion.
 - **A** : indique par une icône si l'appareil est actif ou non. Par défaut la liste est triée pour montrer d'abord les appareils actifs.
 - **Wifi** : qualité de la connexion Wifi.
@@ -274,7 +274,7 @@ Les statistiques semblent parfois surprenantes, mais il s'agit d'une interpréta
 
 ### Boutons
 L'onglet `Appareils` propose les boutons suivants :
-- **`Rafraîchir`** : permet de forcer le rafraîchissement de la liste des appareils, non seulement dans cet onglet mais aussi dans les onglets `Infos Appareil` et `Événements`. Utile par exemple si le programme est actif alors que l'ordinateur sort de veille : des événements ayant probablement été raté par le programme, un rafraîchissement permettra de retrouver une vue à jour.
+- **`Rafraîchir`** : permet de forcer le rafraîchissement de la liste des appareils, non seulement dans cet onglet mais aussi dans les onglets `Infos Appareil` et `Événements`. Utile par exemple si le programme est actif alors que l'ordinateur sort de veille : des événements ayant probablement été manqués par le programme, un rafraîchissement permettra de retrouver une vue à jour.
 - **`Assigner Noms...`** : permet d'assigner le même nom que celui qui a été donné à la Livebox automatiquement pour tous les appareils inconnus.
 - **`Infos Appareil`** : permet de basculer dans l'onglet `Infos Appareil` pour l'appareil sélectionné et de voir directement ses informations.
 - **`Événements Appareil`** : permet de basculer dans l'onglet `Événements` pour l'appareil sélectionné et de voir directement les événements reçus le concernant.
@@ -305,14 +305,14 @@ Les statistiques semblent parfois surprenantes, mais il s'agit d'une interpréta
 ### Boutons
 L'onglet `Stats/Infos Livebox` propose les boutons suivants :
 - **`Infos Livebox`** : affiche les informations principales concernant la Livebox, telles que les versions de logiciels, l'adresse IP WAN, les services actifs, l'état de la mémoire, etc.
-- **`Infos Internet`** : affiche le type d'accès internet, les identifiants de connexion, les adresses IPs v4 & v6, la date et heure de la dernière connexion, la bande passante de la connexion, la MTU, etc
+- **`Infos Internet`** : affiche le type d'accès internet, les identifiants de connexion, les adresses IP v4 & v6, la date et heure de la dernière connexion, la bande passante de la connexion, la MTU, etc
 - **`Infos Wifi`** : affiche les informations générales sur la connectivité Wifi, et l'état de chaque accès y compris pour les accès invités. Pour chaque accès on dispose d'informations détaillées telles que le canal, le standard, la bande passante, la qualité, la bande, le nombre d'appareils connectés, etc.
 - **`Infos LAN`** : affiche les informations générales sur la connectivité LAN. Il s'agit des informations DHCP de base et pour chaque interface Ethernet on peut identifier si elle est active ou non, la bande passante, etc.
 - **`Infos ONT`** : affiche les informations importantes concernant la connexion et le module Fibre (ONT), telles que la bande passante, la qualité du signal, le numéro de série et les versions logicielles, etc. Les champs `Puissance Signal Réception`, `Puissance Signal Transmission`, `Température`, `Voltage` et `BIAS` affichent des valeurs vertes si elles correspondent aux normes de qualité acceptables pour la connexion, en rouge si elles représentent un problème, en orange si elles sont aux limites acceptables.
 ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_LiveboxInfos_ONT.png)
 - **`Infos VoIP`** : affiche les informations générales concernant la téléphonie, telles que le protocole, le numéro de téléphone, la version logicielle de l'interface DECT, etc.
 - **`Infos IPTV`** : affiche les informations générales relatives aux services de télévision.
-- **`Infos USB`** : affiche les informations concernant le ou les ports USBs. Si une clef USB est insérée, ou a été insérée depuis le dernier démarrage de la Livebox, ses informations sont affichées.
+- **`Infos USB`** : affiche les informations concernant le ou les ports USB. Si une clé USB est insérée, ou a été insérée depuis le dernier démarrage de la Livebox, ses informations sont affichées.
 - **`Export...`** : permet d'exporter l'ensemble des informations affichées par chacun des boutons dans un fichier texte. Utile pour communiquer ces informations ou faire un suivi pour détecter les changements.
 
 
@@ -354,7 +354,8 @@ La liste des appareils connus, sur la gauche, affiche les colonnes suivantes :
 Lorsqu'un appareil est sélectionné dans cette liste ses informations détaillées s'affichent dans la liste de droite. Attributs notables :
 - **Actif** : indique si l'appareil est actif ou non.
 - **Authentifié** : indique si la connexion Wifi de l'appareil a bien été authentifiée.
-- **Bloqué** : indique si vous avez bloqué la connexion de l'appareil à la Livebox ou non. Le blocage peut être contrôlé avec les boutons `Bloquer` et `Débloquer`. Il peut être utile de bloquer un appareil inconnu si vous avez des suspicions.
+- **Bloqué** : indique si vous avez bloqué l'appareil ou non. Le blocage peut être contrôlé avec le bouton `Bloquer`/`Débloquer`. Il peut être utile de bloquer un appareil inconnu si vous avez des suspicions.
+- **Planificateur** : indique si une planification de connexion est active pour cet appareil. La planification peut être contrôlée avec le bouton `Planificateur...`.
 - **Première Connexion** : date et heure de la première connexion. Attention cette valeur peut aussi correspondre à la date/heure d'un précédent redémarrage de la Livebox.
 - **Dernière Connexion** : date et heure de la dernière connexion.
 - **Dernier Changement** : date et heure du dernier changement détecté pour cet appareil.
@@ -379,8 +380,12 @@ L'onglet `Infos Appareil` propose les boutons suivants :
     Il est possible de sélectionner un des types standards connus par la Livebox dans le menu, chaque type étant affiché avec son icône Livebox correspondante. Lorsqu'un type standard est sélectionné, son nom connu par la Livebox est automatiquement rempli dans la zone de texte et on peut valider le dialogue. Il reste possible d'assigner manuellement un type non connu par la Livebox en le tapant directement dans la zone de texte. Note : bien que le type "Djingo Speaker" soit référencé comme standard par la Livebox 5, ce type ne semble pas (encore ?) supporté par l'interface graphique de la Livebox. **Attention**: si vous assignez le type "Wi-Fi Repeater" (valeurs "repeteurwifi", "repeteurwifi6" ou "SAH AP") à un appareil le logiciel l'identifiera comme répéteur Orange et essaiera de s'y connecter. Donc s'il ne s'agit pas vraiment d'un répéteur Orange vous aurez une erreur de connexion au démarrage.
 - **`Oublier...`** : permet de demander à la Livebox d'oublier définitivement cet appareil. Il disparaîtra donc immédiatement de toutes les listes. Attention si l'appareil en question est actif, sa connexion ne sera nullement suspendue, cependant toute son activité restera invisible et ce jusqu'à sa prochaine tentative de connexion.
 - **`WakeOnLAN`** : permet d\'envoyer un signal de réveil sur réseau à l'appareil sélectionné. Celui-ci doit être configuré pour s'allumer à la réception de ce signal (option WOL) pour que cela fonctionne.
-- **`Bloquer`** : permet de bloquer la connexion de l'appareil sélectionné.
-- **`Débloquer`** : permet de débloquer la connexion de l'appareil sélectionné. L'état bloqué ou non s'affiche dans les informations de l'appareil, champs "Bloqué".
+- **`Planificateur...`** : Permet de configurer le planificateur d'accès au réseau pour cet appareil. L'état du planificateur s'affiche dans les informations de l'appareil.
+
+    ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_DeviceInfos_Scheduler.png)
+
+    La planification peut être configurée à la souris (vert = activé / rouge = désactivé) avec une résolution au quart d'heure. Il est aussi possible via la zone "Ajouter Période" de configurer des plages horaires d'activation ou de désactivation avec une précision à la minute. Attention si vous cliquez sur la table ensuite la résolution reviendra automatiquement au quart d'heure.
+- **`Bloquer`/`Débloquer`** : permet de bloquer/débloquer la connexion de l'appareil sélectionné. L'état bloqué ou non s'affiche dans les informations de l'appareil, champs "Bloqué".
 
 
 ## Événements - Liste des événements reçus pour chaque appareil connu <a id="events"></a>
@@ -400,7 +405,7 @@ La liste des événements est composée des colonnes :
 
 Un double clic sur un événement ou un clic sur le bouton **`Afficher Événement`** permet d'afficher un dialogue contenant les informations complètes :
 - **Raised** : date et heure précise de réception de l'événement.
-- **Handler** : gestionnaire de l'événement, contenant la plupart du temps la clef de l'appareil qui n'est autre que son adresse MAC.
+- **Handler** : gestionnaire de l'événement, contenant la plupart du temps la clé de l'appareil qui n'est autre que son adresse MAC.
 - **Reason** : le type d'événement.
 - **Attributes** : données brutes complètes de l'événement lui-même, au format JSON tel que généré par la Livebox.  
 
@@ -479,7 +484,7 @@ La liste des règles de redirection de port, en haut, affiche les colonnes suiva
 - **Port Interne** : port ou plage de ports interne sur lequel le trafic est redirigé.
 - **Port Externe** : port ou plage de ports externe à rediriger.
 - **Appareil** : appareil (ou son adresse IP) sur lequel le trafic est redirigé.
-- **IP Externes** : liste des adresses IPs externes concernées par la règle.
+- **IP Externes** : liste des adresses IP externes concernées par la règle.
 
 Un **double clic** sur une règle permet de facilement l'éditer.
 
@@ -505,7 +510,7 @@ La liste des règles de redirection de protocole, en bas, affiche les colonnes s
 - **Description** : description de la règle.
 - **Protocoles** : liste des protocoles concernés par la règle. 
 - **Appareil** : appareil (ou son adresse IP) sur lequel le trafic est redirigé. En IPv6 il est aussi possible de spécifier un préfix plutôt qu'une adresse.
-- **IP Externes** : liste des adresses IPs externes concernées par la règle.
+- **IP Externes** : liste des adresses IP externes concernées par la règle.
 
 Un **double clic** sur une règle permet de facilement l'éditer.
 
@@ -590,16 +595,19 @@ Les actions concernant le **Wifi** :
 
     ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Actions_WifiConfig.png)
 
-- **`Wifi ON`** : permet d'activer l'interface Wifi de la Livebox.
-- **`Wifi OFF`** : permet de désactiver l'interface Wifi de la Livebox.
+    Les boutons `ON` et `OFF` permettent d'activer ou de désactiver rapidement l'interface Wifi de la Livebox.
 - **`Invité...`** : permet de configurer toutes les bandes radios du réseau Wifi Invité.
 
     ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Actions_WifiConfigGuest.png)
 
-- **`Invité ON`** : permet d'activer l'interface Wifi Invité de la Livebox.
-- **`Invité OFF`** : permet de désactiver l'interface Wifi Invité de la Livebox.
-- **`Planificateur Wifi ON`** : permet d'activer le planificateur Wifi de la Livebox. Ce planificateur doit être configuré depuis l'interface Web de la Livebox.
-- **`Planificateur Wifi OFF`** : permet de désactiver le planificateur Wifi de la Livebox.
+    Les boutons `ON` et `OFF` permettent d'activer ou de désactiver rapidement l'interface Wifi Invité de la Livebox.
+- **`Planificateur...`** : permet de configurer le planificateur du réseau Wifi de la Livebox.
+
+    ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Actions_Scheduler.png)
+
+    La planification peut être configurée à la souris (vert = activé / rouge = désactivé) avec une résolution au quart d'heure. Il est aussi possible via la zone "Ajouter Période" de configurer des plages horaires d'activation ou de désactivation avec une précision à la minute. Attention si vous cliquez sur la table ensuite la résolution reviendra automatiquement au quart d'heure.
+    Si un ou plusieurs répéteurs Wifi Orange sont connectés à la Livebox l'option `Appliquer à tous les répéteurs` permet de configurer exactement la même planification pour tous.
+    Les boutons `ON` et `OFF` permettent d'activer ou de désactiver rapidement le planificateur.
 - **`État Global Wifi...`** : permet d'afficher l'état global du Wifi, en incluant l'état Wifi de tous les répéteurs Wifi Orange potentiellement connectés.
 
     ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Actions_WifiGlobalStatus.png)
@@ -633,6 +641,11 @@ Les actions concernant le **Réseau** :
 - **`Réponses aux pings...`** : permet de régler les réponses aux requêtes de ping IPv4 et IPv6.
 
     ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Actions_PingResponses.png)
+- **`Test de débits...`** : permet d'effectuer des tests de débit rapides proposés par Orange. Cela peut être utile pour des tests rapides cependant des sites comme nperf.com ou speedtest.net proposent des résultats bien plus fiables.
+
+    ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Actions_SpeedTests.png)
+
+    Deux tests sont proposés : le "natif", historique, de la Livebox et celui utilisé par le site "mon réseau local". Les résultats peuvent prendre jusqu'à une minute pour remonter et sont stockés dans le fichier de configuration pour les retrouver à chaque utilisation du dialogue.
 - **`DynDNS...`** : permet de régler les domaines DynDNS.
 
     ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Actions_DynDNS.png)
@@ -676,7 +689,7 @@ Les actions concernant les **Réglages** :
     - `Statistiques temps réel des appareils wifi` : active ou non les statistiques en temps réel pour les appareils wifi. Celles ci s'affichent en bleu dans l'onglet `Appareils` et viennent recouvrir les statistiques standards qui s'affichent en noir toutes les 30 secondes.
     - `Empêcher la mise en veille` : permet d'empêcher votre ordinateur de se mettre en veille pendant l'exécution de ce programme. Utile pour laisser tourner l'application en permanence, par exemple pour l'export des statistiques ou pour la génération de notifications en temps réel.
     - `Utiliser le style d'interface graphique natif` : par défaut le style "Fusion" est utilisé sur toutes les plateformes. Cette option permet sur les plateformes Windows et MacOS d'utiliser un style graphique plus natif. Cette option n'a aucun effet sur les plateformes Linux.
-    - `Sauver les mots de passe` : permet de sauver les mots de passe dans la configuration (encryptés) pour éviter d'avoir à les retaper à chaque lancement.  
+    - `Sauver les mots de passe` : permet de sauver les mots de passe dans la configuration (chiffrés) pour éviter d'avoir à les retaper à chaque lancement.  
 
 - **`Changer de profil...`** : affiche un dialogue permettant de changer le profil en cours et de relancer le programme.
 
@@ -765,14 +778,19 @@ Les statistiques semblent parfois surprenantes, mais il s'agit d'une interpréta
 Les actions concernant le **Wifi** :
 - **`Wifi ON`** : permet d'activer l'interface Wifi du répéteur.
 - **`Wifi OFF`** : permet de désactiver l'interface Wifi du répéteur.
-- **`Planificateur Wifi ON`** : permet d'activer le planificateur Wifi du répéteur. Ce planificateur doit être configuré depuis l'interface Web du répéteur.
-- **`Planificateur Wifi OFF`** : permet de désactiver le planificateur Wifi du répéteur.
+- **`Planificateur Wifi...`** : permet de configurer le planificateur du réseau Wifi du répéteur.
+
+    ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Actions_Scheduler.png)
+
+    La planification peut être configurée à la souris (vert = activé / rouge = désactivé) avec une résolution au quart d'heure. Il est aussi possible via la zone "Ajouter Période" de configurer des plages horaires d'activation ou de désactivation avec une précision à la minute. Attention si vous cliquez sur la table ensuite la résolution reviendra automatiquement au quart d'heure.
+    Si un ou plusieurs autres répéteurs Wifi Orange sont connectés à la Livebox l'option `Appliquer à tous les répéteurs` permet de configurer exactement la même planification pour tous.
+    Les boutons `ON` et `OFF` permettent d'activer ou de désactiver rapidement le planificateur.
 
 L'état global du Wifi peut être consulté via le bouton `État Global Wifi...` de l'onglet `Actions`.
 
 Les actions concernant les **Redémarrages** :
 - **`Redémarrer le Répéteur...`** : permet de forcer un redémarrage du répéteur.
-- **`Réinitialiser le Répéteur...`** : Ppermet de réinitialiser le répéteur aux paramètres d'usine.
+- **`Réinitialiser le Répéteur...`** : permet de réinitialiser le répéteur aux paramètres d'usine.
 - **`Historique Redémarrages...`** : permet d'afficher l'historique des derniers redémarrages.
 
     ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Repeater_RebootHistory.png)
