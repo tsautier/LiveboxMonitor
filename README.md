@@ -231,7 +231,7 @@ Un fichier de noms local offre la garantie de savoir si un appareil est vraiment
 ### Le fichier SpamCalls.txt
 
 Ce fichier JSON est géré automatiquement par l'application et il ne devrait pas être nécessaire de l'éditer.
-Il contient tous les numéros de téléphone au format international identifiés comme indésirables. Les appels provenants de ces numéros sont automatiquement marqués comme "spam" dans l'onglet `Téléphone`.
+Il contient tous les numéros de téléphone au format international identifiés comme indésirables. Les appels provenant de ces numéros sont automatiquement marqués comme "spam" dans l'onglet `Téléphone`.
 
 
 ## Linux <a id="linux"></a>
@@ -542,7 +542,7 @@ La liste des appels téléphoniques, sur la gauche, affiche les colonnes suivant
     - ![Icone](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Icon_Call_Out_Failed.png) : appel émis mais non abouti.
 - **Heure** : date et heure de l'appel.
 - **Numéro** : numéro de téléphone concerné.
-- **Contact** : le nom du contact déterminé par la Livebox en fonction de la liste des contacts au moment de l'appel. Si la Livebox n'a mémorisé aucun nom, alors le programme essai d'en trouver un dynamiquement à partir de la liste des contacts enregistrés par correspondance avec le numéro de téléphone. Si un numéro de téléphone indésirable a été mémorisé (voir fichier "SpamCalls.txt") il est automatiquement indiqué comme "# SPAM #".
+- **Contact** : le nom du contact déterminé par la Livebox en fonction de la liste des contacts au moment de l'appel. Si la Livebox n'a mémorisé aucun nom, alors le programme essaie d'en trouver un dynamiquement à partir de la liste des contacts enregistrés par correspondance avec le numéro de téléphone. Si un numéro de téléphone indésirable a été mémorisé (voir fichier "SpamCalls.txt") il est automatiquement indiqué comme "# SPAM #".
 - **Durée** : durée de l'appel.
 
 Un **double clic** sur un appel permet de facilement créer ou éditer le contact correspondant.
@@ -616,7 +616,7 @@ Les actions **Diverses** :
 - **`Sauvegarde et Restauration...`** : permet de régler la sauvegarde automatique de la configuration de la Livebox, de déclencher une sauvegarde ou de demander une restauration de la configuration.
 
     ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Actions_BackupRestore.png)
-- **`LEDs et Écran...`** : permet de régler le niveau de luminosité des LEDs et l'affichage du mot de passe Wifi sur l'écran de la Livebox. Cette fonctionalité est disponible uniquement à partir de la Livebox 6.
+- **`LEDs et Écran...`** : permet de régler le niveau de luminosité des LEDs et l'affichage du mot de passe Wifi sur l'écran de la Livebox. Cette fonctionnalité est disponible uniquement à partir de la Livebox 6.
 
     ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Actions_Screen.png)
 
@@ -686,7 +686,7 @@ Les actions concernant les **Réglages** :
     - `Taille Police Lignes` : taille de la police de caractères des lignes de liste. Une valeur à zéro signifie d'utiliser la taille système. Par défaut ce paramètre est à zéro.
     - `Marge Timeout` : valeur de timeout additionnelle, à utiliser par exemple si vous accédez à une Livebox à distance avec une grande latence réseau.
     - `Séparateur CSV` : séparateur de liste (délimiteur) à utiliser lors de l'export de données dans des fichiers au format CSV.
-    - `Statistiques temps réel des appareils wifi` : active ou non les statistiques en temps réel pour les appareils wifi. Celles ci s'affichent en bleu dans l'onglet `Appareils` et viennent recouvrir les statistiques standards qui s'affichent en noir toutes les 30 secondes.
+    - `Statistiques temps réel des appareils wifi` : active ou non les statistiques en temps réel pour les appareils wifi. Celles-ci s'affichent en bleu dans l'onglet `Appareils` et viennent recouvrir les statistiques standards qui s'affichent en noir toutes les 30 secondes.
     - `Empêcher la mise en veille` : permet d'empêcher votre ordinateur de se mettre en veille pendant l'exécution de ce programme. Utile pour laisser tourner l'application en permanence, par exemple pour l'export des statistiques ou pour la génération de notifications en temps réel.
     - `Utiliser le style d'interface graphique natif` : par défaut le style "Fusion" est utilisé sur toutes les plateformes. Cette option permet sur les plateformes Windows et MacOS d'utiliser un style graphique plus natif. Cette option n'a aucun effet sur les plateformes Linux.
     - `Sauver les mots de passe` : permet de sauver les mots de passe dans la configuration (chiffrés) pour éviter d'avoir à les retaper à chaque lancement.  
@@ -739,7 +739,7 @@ Les actions techniques de **Débogage** :
 
     ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Actions_CallAPIs.png)
  
-- **`Générer documentation APIs...`** : permet de générer dans des fichiers texte l'ensemble de la documentation accessible sur les APIs de la Livebox, par module. Le programme génère un fichier par module connu, un fichier "_ALL_MODULES_" contenant l'ensemble des modules en un seul fichier, et un fichier "_PROCESSES_" qui permet d'avoir la liste des tâches tournant sur la Livebox. Certains fichiers ne contiennent qu'une erreur "Permission denied" : c'est normal, ces modules sont protégés et donc non accessibles (mais qui sait dans une prochaine version du firmeware ?). Les paramètres de fonction indiqués entre parenthèses sont optionnels. Par défaut le programme génère l'ensemble des instances trouvées par type de ressources (ou "object") ainsi que toutes les valeurs trouvées par paramètres, mais ces valeurs sont filtrées si on maintient la touche `Ctrl` en cliquant sur le bouton. Cela permet de partager librement ces fichiers sans divulguer d'informations spécifiques à sa configuration, cependant avoir la liste des instances reste crucial pour une documentation vraiment complète. Malheureusement Orange a décidé de bloquer cette possibilité sur les dernières Livebox W7 et S.  
+- **`Générer documentation APIs...`** : permet de générer dans des fichiers texte l'ensemble de la documentation accessible sur les APIs de la Livebox, par module. Le programme génère un fichier par module connu, un fichier "_ALL_MODULES_" contenant l'ensemble des modules en un seul fichier, et un fichier "_PROCESSES_" qui permet d'avoir la liste des tâches tournant sur la Livebox. Certains fichiers ne contiennent qu'une erreur "Permission denied" : c'est normal, ces modules sont protégés et donc non accessibles (mais qui sait dans une prochaine version du firmware ?). Les paramètres de fonction indiqués entre parenthèses sont optionnels. Par défaut le programme génère l'ensemble des instances trouvées par type de ressources (ou "object") ainsi que toutes les valeurs trouvées par paramètres, mais ces valeurs sont filtrées si on maintient la touche `Ctrl` en cliquant sur le bouton. Cela permet de partager librement ces fichiers sans divulguer d'informations spécifiques à sa configuration, cependant avoir la liste des instances reste crucial pour une documentation vraiment complète. Malheureusement Orange a décidé de bloquer cette possibilité sur les dernières Livebox W7 et S.  
 
 Autres actions :
 - **Quitter l'application** : pour quitter l'application. Strictement équivalent à fermer la fenêtre de l'application.
@@ -751,7 +751,7 @@ Autres actions :
 ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Repeater.png)
 
 Le programme créé dynamiquement un onglet par répéteur Orange connecté. Si le répéteur a un nom local, celui-ci est utilisé dans l'onglet, sinon le nom par défaut est de type "RW #" suivit du numéro de répéteur dans l'ordre de détection.
-Les répéteurs font aussi parti des appareils connus, ils sont donc visibles dans l'onglet `Appareils` et leur nom peut être changé via le bouton `Assigner Nom...` de l'onglet `Infos Appareil`.
+Les répéteurs font aussi partie des appareils connus, ils sont donc visibles dans l'onglet `Appareils` et leur nom peut être changé via le bouton `Assigner Nom...` de l'onglet `Infos Appareil`.
 
 Une icône dans le nom de l'onglet permet de connaître l'état de la connexion avec le répéteur :
 - ![Icone](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Icon_Cross.png) : le répéteur est inactif ou n'a pas d'adresse IP attribuée.
@@ -819,7 +819,7 @@ Les onglets de répéteur Wifi proposent les boutons suivants :
 ![Interface](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Tvdecoder.png)
 
 Le programme créé dynamiquement un onglet par décodeur TV Orange connecté. Si le décodeur a un nom local, celui-ci est utilisé dans l'onglet, sinon le nom par défaut est de type "TV #" suivit du numéro de décodeur dans l'ordre de détection.
-Les décodeurs font aussi parti des appareils connus, ils sont donc visibles dans l'onglet `Appareils` et leur nom peut être changé via le bouton `Assigner Nom...` de l'onglet `Infos Appareil`.
+Les décodeurs font aussi partie des appareils connus, ils sont donc visibles dans l'onglet `Appareils` et leur nom peut être changé via le bouton `Assigner Nom...` de l'onglet `Infos Appareil`.
 
 Une icône dans le nom de l'onglet permet de connaître l'état de la connexion avec le décodeur :
 - ![Icone](http://p-dor.github.io/LiveboxMonitor/docs/png/Doc_Icon_Cross.png) : le décodeur est inactif ou n'a pas d'adresse IP attribuée.
