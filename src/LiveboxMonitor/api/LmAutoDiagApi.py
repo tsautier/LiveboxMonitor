@@ -24,7 +24,7 @@ class AutoDiagApi(LmApi):
     def execute_diagnostic(self, id, user_requested=True):
         s = self.get_diagnostic_state()
         state = s.get("DiagnosticsState")
-        if state and (state == "Requested"):
+        if state == "Requested":
             raise LmApiException(f"A diagnostic is already running: {s.get('Diagnostics')}")
         self.call("AutoDiag", "executeDiagnostics", {"id": id, "usr": user_requested})
 
@@ -36,6 +36,6 @@ class AutoDiagApi(LmApi):
 
 
     ### Get latest speed test results
-    # Works only for "speedService" and "visuAtlasSpeedTest" diagnostics
+    # Works at least for "speedService", "visuServiceLan" and visuAtlasSpeedTest" diagnostics
     def get_speed_test_results(self):
         return self.call("SpeedTest", "getWANResults")
