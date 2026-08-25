@@ -865,13 +865,13 @@ class LmRepHandler:
     def reset_repeater_button_click(self):
         if self.is_signed():
             if self._app.ask_question(mx("Are you sure you want to reset the Repeater?", "reset")):
-                self._app._task.start(lx("Reseting Repeater..."))
+                self._app._task.start(lx("Resetting Repeater..."))
                 try:
                     self._api._reboot.factory_reset(reason="WebUI reset")
                 except Exception as e:
                     self._app.display_error(str(e))
                 else:
-                    self._app.display_status(mx("The repeater is being reset.", "reseting"))
+                    self._app.display_status(mx("The repeater is being reset.", "resetting"))
                 finally:
                     self._app._task.end()
         else:
