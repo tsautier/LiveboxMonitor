@@ -323,6 +323,11 @@ def livebox_timestamp(timestamp, utc=True):
         return None
 
 
+### Format a date time
+def fmt_datetime(timestamp):
+    return timestamp.strftime("%Y-%m-%d %H:%M:%S")
+
+
 ### Parse Livebox timestamp (UTC time by default)
 def fmt_livebox_timestamp(timestamp, utc=True):
     if timestamp is None:
@@ -330,7 +335,7 @@ def fmt_livebox_timestamp(timestamp, utc=True):
     date_time = livebox_timestamp(timestamp, utc)
     if date_time is None:
         return ""
-    return date_time.strftime("%Y-%m-%d %H:%M:%S")
+    return fmt_datetime(date_time)
 
 
 ### Format a unix epoch timestamp
@@ -340,4 +345,4 @@ def fmt_epoch_timestamp(timestamp):
     date_time = datetime.datetime.fromtimestamp(timestamp)
     if date_time is None:
         return ""
-    return date_time.strftime("%Y-%m-%d %H:%M:%S")
+    return fmt_datetime(date_time)
