@@ -101,7 +101,7 @@ LABELS = {
         "Provider": "Fournisseur",
         "Model Number": "Numéro Modèle",
         "Model Name": "Nom Modèle",
-        "Friendly Name": "Nom Familier",
+        "Friendly Name": "Nom d'Usage",
         "Allowed Host Headers": "Noms d'Hôtes",
         "Model": "Modèle",
         "Status": "Statut",
@@ -121,7 +121,7 @@ LABELS = {
         "External IP Address": "Adresse IP Externe",
         "Total Number Of Reboots": "Nb Total de Redémarrages",
         "Number Of Reboots": "Nb de Redémarrages",
-        "Upgrade Occurred": "Mise-à-jour Effectuée",
+        "Upgrade Occurred": "Mise à jour Effectuée",
         "Reset Occurred": "Reset Effectué",
         "Restore Occurred": "Restauration Effectuée",
         "Active": "Actif",
@@ -219,6 +219,7 @@ LABELS = {
         "Signal RxPower": "Puissance Signal Réception",
         "Signal TxPower": "Puissance Signal Transmission",
         "Temperature": "Température",
+        "Voltage": "Tension",
         "Equipment ID": "ID Équipement",
         "Vendor ID": "ID Vendeur",
         "Vendor Product Code": "Code Produit Vendeur",
@@ -353,7 +354,7 @@ LABELS = {
         "Pairing Time": "Heure Appairage",
         "Uplink Type": "Type Lien",
         "Wifi Signal Strength": "Force Signal Wifi",
-        "Wifi Signal Noise Ratio": "Taux Bruit Signal Wifi",
+        "Wifi Signal Noise Ratio": "Rapport Signal Bruit Wifi",
         "Encryption Mode": "Mode Encryption",
         "Security Mode": "Mode Sécurité",
         "Link Bandwidth": "Bande Passante Lien",
@@ -452,7 +453,9 @@ LABELS = {
         "Delete": "Supprimer",
         "Attribute": "Attribut",
         "Value": "Valeur",
+        "DHCP Logs...": "Logs DHCP...",
         "DHCP Setup...": "Réglages DHCP...",
+        "Loading DHCP Logs...": "Chargement du journal de logs DHCP...",
         "Getting DHCP bindings...": "Chargement des baux DHCP...",
         "Getting DHCP information...": "Chargement des informations DHCP...",
         "DHCP Home Information": "Informations DHCP Home",
@@ -490,6 +493,14 @@ LABELS = {
         "Cancel": "Annuler",
         "Add DHCP binding": "Ajouter un Bail DHCP",
         "-Unknown-": "-Inconnu-"
+    },
+
+    # DHCP - Server logs
+    "dlogs": {
+        "Name": "Nom",
+        "Date/Time": "Date/Heure",
+        "Duration": "Durée",
+        "DHCP Logs": "Logs DHCP"
     },
 
     # DHCP - Setup dialog
@@ -670,7 +681,7 @@ LABELS = {
         "Activating Wifi Scheduler...": "Activation du Planificateur Wifi...",
         "Deactivating Wifi Scheduler...": "Désactivation du Planificateur Wifi...",
         "Rebooting Livebox...": "Redémarrage de la Livebox...",
-        "Reseting Livebox...": "Réinitialisation de la Livebox..."
+        "Resetting Livebox...": "Réinitialisation de la Livebox..."
     },
 
     # Actions - Reboot history
@@ -702,7 +713,7 @@ LABELS = {
         "Wifi Configuration": "Configuration du Wifi",
         "Enabled for {}": "Activé pour {}",
         "Add...": "Ajouter...",
-        "Enter MAC address to filter:": "Entrez une adresse MAC à filter:",
+        "Enter MAC address to filter:": "Entrez une adresse MAC à filtrer:",
         "Already in the list: {}": "Déjà dans la liste : {}",
         "Invalid MAC address: {}": "Adresse MAC invalide : {}"
     },
@@ -733,7 +744,7 @@ LABELS = {
         "Tue": "Mar",
         "Wed": "Mer",
         "Thu": "Jeu",
-        "Fri": "`Ven",
+        "Fri": "Ven",
         "Sat": "Sam",
         "Sun": "Dim",
         "Apply": "Appliquer",
@@ -956,7 +967,7 @@ LABELS = {
         "Getting Repeater Scheduler Configuration...": "Chargement de la configuration du planificateur Wifi...",
         "Setting Repeater Scheduler Configuration...": "Configuration du planificateur Wifi...",
         "Rebooting Repeater...": "Redémarrage du répéteur...",
-        "Reseting Repeater...": "Réinitialisation du répéteur...",
+        "Resetting Repeater...": "Réinitialisation du répéteur...",
         "Getting Reboot History...": "Chargement de l'historique de redémarrages...",
         "Signing in to repeater...": "Authentification au répéteur..."
     },
@@ -1013,7 +1024,7 @@ LABELS = {
         "Realtime wifi device statistics": "Statistiques temps réel des appareils wifi",
         "Prevent sleep mode": "Empêcher la mise en veille",
         "Use native graphical interface style": "Utiliser le style d'interface graphique natif",
-        "Save passwords": "Sauver les mots de passe",
+        "Save passwords": "Enregistrer les mots de passe",
         "Preferences": "Préférences",
         "Cancel": "Annuler",
         "Create Profile": "Créer un profil",
@@ -1140,8 +1151,8 @@ TOOLTIPS = {
                     "typiquement lorsque l'appareil n'est pas actif.",
         "dlist_Link": "Point d'accès de l'appareil sur le réseau.\nD'abord le nom de l'appareil, c'est-à-dire la Livebox elle-même ou le nom d'un des répéteurs\n"
                       "Wifi Orange connectés, et ensuite l'interface sur cet appareil.\n"
-                      "\"Eth\" signifie une des prises Ethernet suivi du numéro de prise.\n"
-                      "\"Wifi\" signifie une connexion Wifi suivi par la bande de connexion.",
+                      "\"Eth\" désigne l'une des prises Ethernet suivi du numéro de prise.\n"
+                      "\"Wifi\" désigne une connexion Wifi suivi par la bande de connexion.",
         "dlist_Active": "Indique par une icône si l'appareil est actif ou non.\n"
                         "Par défaut la liste est triée pour montrer d'abord les appareils actifs.",
         "dlist_Wifi": "Qualité de la connexion Wifi.",
@@ -1242,7 +1253,7 @@ TOOLTIPS = {
                    "on peut identifier si elle est active ou non, la bande passante, etc.",
         "ontInfo": "Affiche les informations importantes concernant la connexion et le module Fibre (ONT), telles que la bande passante,\n"
                    "la qualité du signal, le numéro de série et les versions logicielles, etc.\n"
-                   "Les champs \"Puissance Signal Réception\", \"Puissance Signal Transmission\", \"Température\", \"Voltage\" et \"BIAS\"\n"
+                   "Les champs \"Puissance Signal Réception\", \"Puissance Signal Transmission\", \"Température\", \"Tension\" et \"BIAS\"\n"
                    "affichent des valeurs vertes si elles correspondent aux normes de qualité acceptables pour la connexion,\n"
                    "en rouge si elles représentent un problème.",
         "voipInfo": "Affiche les informations générales concernant la téléphonie, telles que le protocole,\n"
@@ -1277,13 +1288,13 @@ TOOLTIPS = {
                   "La configuration doit avoir été appliquée avant d'être exportée.\n"
                   "Les temps exportés sont au format \"Unix Epoch\".",
         "downGraph": "Graphique des données reçues pour chaque interface / appareil sélectionné.\n"
-                     "Les volumes sont en méga-octets reçus par seconde, avec un échantillonnage\n"
+                     "Les débits sont en méga-octets reçus par seconde, avec un échantillonnage\n"
                      "toutes les 30 secondes. Le graphe se met à jour automatiquement à la réception\n"
                      "de nouveaux échantillons.\n"
                      "Il est possible de naviguer et de zoomer à la souris, puis de revenir à la\n"
                      "vue normale en cliquant dans le coin en bas à gauche.",
         "upGraph": "Graphique des données émises pour chaque interface / appareil sélectionné.\n"
-                   "Les volumes sont en méga-octets transmis par seconde, avec un échantillonnage\n"
+                   "Les débits sont en méga-octets transmis par seconde, avec un échantillonnage\n"
                    "toutes les 30 secondes. Le graphe se met à jour automatiquement à la réception\n"
                    "de nouveaux échantillons.\n"
                    "Il est possible de naviguer et de zoomer à la souris, puis de revenir à la\n"
@@ -1327,7 +1338,7 @@ TOOLTIPS = {
         "scheduler": "Permet de configurer le planificateur d'accès au réseau.\n"
                      "L'état du planificateur s'affiche dans les informations de l'appareil.",
         "block": "Permet de bloquer/débloquer la connexion de l'appareil sélectionné.\n"
-                 "L'état bloqué ou non s'affiche dans les informations de l'appareil, champs \"Bloqué\"."
+                 "L'état bloqué ou non s'affiche dans les informations de l'appareil, champ \"Bloqué\"."
     },
 
     # Device infos - Assign name dialog
@@ -1412,6 +1423,7 @@ TOOLTIPS = {
         "addBinding": "Permet d'ajouter un bail.",
         "delBinding": "Supprime le bail sélectionné.",
         "refreshDhcpAttribute": "Rafraîchit la liste des informations DHCP.",
+        "dhcpLogs": "Permet d'afficher les entrées du journal du serveur DHCP.",
         "dhcpSetup": "Permet de configurer le serveur DHCP."
     },
 
@@ -1427,6 +1439,21 @@ TOOLTIPS = {
                   "Attention un même appareil ne peut être configuré que sur un seul domaine,\n"
                   "et s'il se connecte sur un domaine alors qu'un bail statique est configuré\n"
                   "sur l'autre ce bail sera automatiquement supprimé."
+    },
+
+    # DHCP - Server logs
+    "dlogs": {
+        "logs_Name": "Nom local de l'appareil.\n"
+                     "Ce nom peut être attribué, changé ou supprimé via le bouton \"Assigner Nom...\" de l'onglet \"Infos Appareil\".",
+        "logs_MAC": "Adresse MAC, aussi appelée adresse physique de l'appareil.",
+        "logs_Timestamp": "Date et heure de la requête DHCP.",
+        "logs_RequestType": "Type de requête DHCP.\n"
+                            "SHORT désigne un renouvellement ou une transaction rapide au cours de laquelle l'appareil connaît déjà\n"
+                            "l'adresse IP qui lui a été précédemment attribuée.\n"
+                            "NORMAL désigne un processus DORA standard complet en quatre étapes (Discover->Offer->Request->ACK),\n"
+                            "généralement observé lorsqu'un appareil se connecte au réseau pour la première fois, après une longue\n"
+                            "déconnexion ou lorsque son bail précédent a totalement expiré.",
+        "logs_Duration": "Durée de la requête DHCP en millisecondes."
     },
 
     # DHCP - Setup dialog
@@ -1495,10 +1522,10 @@ TOOLTIPS = {
                        "Utiliser le caractère - entre deux ports pour spécifier une plage.",
         "extPortEdit": "Port externe à rediriger.\n"
                        "Ne fonctionne pas en IPv6.\n"
-                       "Laisser ce champs vide s'il s'agit du même port que le port interne.\n"
+                       "Laisser ce champ vide s'il s'agit du même port que le port interne.\n"
                        "Utiliser le caractère - entre deux ports pour spécifier une plage.",
         "deviceCombo": "Appareil sur lequel le trafic doit être redirigé.",
-        "ipEdit": "Addresse IP (v4 ou v6 en fonction du type) sur laquelle le trafic doit\n"
+        "ipEdit": "Adresse IP (v4 ou v6 en fonction du type) sur laquelle le trafic doit\n"
                   "être redirigé.",
         "extIPsEdit": "Liste des adresses IPs (v4 ou v6 en fonction du type) externes concernées\n"
                       "par la règle. Chaque adresse doit être séparée par une virgule.\n"
@@ -1514,7 +1541,7 @@ TOOLTIPS = {
         "descEdit": "Description de la règle.",
         "protocolsCombo": "Sélectionnez les protocoles à rediriger.",
         "deviceCombo": "Appareil sur lequel le trafic doit être redirigé.",
-        "ipEdit": "Addresse IP (v4 ou v6 en fonction du type) sur laquelle le trafic doit\n"
+        "ipEdit": "Adresse IP (v4 ou v6 en fonction du type) sur laquelle le trafic doit\n"
                   "être redirigé. Il est aussi possible d'indiquer un préfix.",
         "extIPsEdit": "Liste des adresses IPs (v4 ou v6 en fonction du type) externes concernées\n"
                       "par la règle. Chaque adresse doit être séparée par une virgule.\n"
@@ -1539,7 +1566,7 @@ TOOLTIPS = {
         "calist_Number": "Numéro de téléphone concerné.\n"
                          "Un double clic sur un appel permet de facilement créer ou éditer le contact correspondant.",
         "calist_Contact": "Le nom du contact déterminé par la Livebox en fonction de la liste des contacts au moment de l'appel.\n"
-                          "Si la Livebox n'a mémorisé aucun nom, alors le programme essai d'en trouver un dynamiquement à partir de\n"
+                          "Si la Livebox n'a mémorisé aucun nom, alors le programme essaie d'en trouver un dynamiquement à partir de\n"
                           "la liste des contacts enregistrés par correspondance avec le numéro de téléphone.",
         "calist_Duration": "Durée de l'appel.",
         "colist_Name": "Nom du contact, au format nom + prénom.",
@@ -1653,7 +1680,7 @@ TOOLTIPS = {
                        "Correspond au \"Wi-Fi Intelligent\", ou mode \"Optimisé\".",
         "macFilteringCombo": "Sélectionner 'Off' pour désactiver le filtrage MAC.\n"
                              "'WhiteList' pour activer le filtrage MAC et ne permettre la\n"
-                             "connexion uniquement qu'aux appareils listés.\n"
+                             "connexion qu'aux appareils listés.\n"
                              "'BlackList' pour activer le filtrage MAC et permettre la\n"
                               "connexion à tous les appareils sauf ceux listés.",
         "macFilteringEntriesCombo": "Sélectionnez les appareils concernés par le filtrage.\n"
@@ -1940,7 +1967,7 @@ TOOLTIPS = {
         "csvDelimiterEdit": "Séparateur de liste (délimiteur) à utiliser lors de l'export\n"
                             "de données dans des fichiers au format CSV.",
         "realtimeWifiStats": "Active ou non les statistiques en temps réel pour les appareils wifi.\n"
-                             "Celles ci s'affichent en bleu dans l'onglet \"Appareils\" et viennent recouvrir\n"
+                             "Celles-ci s'affichent en bleu dans l'onglet \"Appareils\" et viennent recouvrir\n"
                              "les statistiques standards qui s'affichent en noir toutes les 30 secondes.",
         "preventSleepMode": "Permet d'empêcher votre ordinateur de se mettre en veille pendant l'exécution de ce\n"
                             "programme. Utile pour laisser tourner l'application en permanence, par exemple pour\n"
@@ -2170,7 +2197,7 @@ MESSAGES = {
         "reboot": "Êtes-vous sûr de vouloir redémarrer le répéteur ?",
         "rebooting": "Le répéteur est maintenant en train de redémarrer.",
         "reset": "Êtes-vous sûr de vouloir réinitialiser le répéteur ?",
-        "reseting": "Le répéteur est en cours de réinitialisation.",
+        "resetting": "Le répéteur est en cours de réinitialisation.",
         "resign": "Êtes-vous sûr de vouloir vous reconnecter au répéteur ?",
         "forceResign": "Le répéteur est inactif. Voulez-vous forcer la connexion ?"
     },

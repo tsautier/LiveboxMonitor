@@ -11,6 +11,7 @@ from LiveboxMonitor.app.LmTableWidget import LmTableWidget, NumericSortItem
 from LiveboxMonitor.app.LmIcons import LmIcon
 from LiveboxMonitor.tabs.LmInfoTab import InfoCol
 from LiveboxMonitor.dlg.LmDhcpBinding import AddDhcpBindingDialog
+from LiveboxMonitor.dlg.LmDhcpLogs import DhcpLogsDialog
 from LiveboxMonitor.dlg.LmDhcpSetup import DhcpSetupDialog
 from LiveboxMonitor.lang.LmLanguages import get_dhcp_label as lx, get_dhcp_message as mx
 from LiveboxMonitor.tools import LmTools
@@ -80,6 +81,9 @@ class LmDhcp:
         refresh_dhcp_attribute_button = QtWidgets.QPushButton(lx("Refresh"), objectName="refreshDhcpAttribute")
         refresh_dhcp_attribute_button.clicked.connect(self.refresh_dhcp_attribute_button_click)
         attribute_buttons_box.addWidget(refresh_dhcp_attribute_button)
+        dhcp_logs_button = QtWidgets.QPushButton(lx("DHCP Logs..."), objectName="dhcpLogs")
+        dhcp_logs_button.clicked.connect(self.dhcp_logs_button_click)
+        attribute_buttons_box.addWidget(dhcp_logs_button)
         dhcp_setup_button = QtWidgets.QPushButton(lx("DHCP Setup..."), objectName="dhcpSetup")
         dhcp_setup_button.clicked.connect(self.dhcp_setup_button_click)
         attribute_buttons_box.addWidget(dhcp_setup_button)
@@ -186,6 +190,21 @@ class LmDhcp:
         self._dhcp_alist.clearContents()
         self._dhcp_alist.setRowCount(0)
         self.load_dhcp_info()
+
+
+    ### Click on DHCP logs button
+    def dhcp_logs_button_click(self):
+        self._task.start(lx("Loading DHCP Logs..."))
+        try:
+            dhcp_logs = self._api._dhcp.get_logs()
+        except Exception as e:
+            self.display_error(str(e))
+        finally:
+            self._task.end()
+
+        dhcp_logs_dialog = DhcpLogsDialog(self)
+        dhcp_logs_dialog.load_dhcp_logs(dhcp_logs)
+        dhcp_logs_dialog.exec()
 
 
     ### Click on DHCP setup button

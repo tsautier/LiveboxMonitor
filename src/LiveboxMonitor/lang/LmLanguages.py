@@ -123,6 +123,7 @@ def get_notification_rules_label(string): return get_label("evnrules", string)
 def get_dhcp_label(string): return get_label("dhcp", string)
 def get_dhcp_message(string, key): return get_message("dhcp", string, key)
 def get_dhcp_binding_label(string): return get_label("dbinding", string)
+def get_dhcp_logs_label(string): return get_label("dlogs", string)
 def get_dhcp_setup_label(string): return get_label("dsetup", string)
 
 # NAT/PAT

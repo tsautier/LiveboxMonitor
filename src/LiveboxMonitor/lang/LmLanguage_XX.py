@@ -519,8 +519,10 @@ LABELS = {
         "Delete": "",
         "Attribute": "",
         "Value": "",
+        "DHCP Logs...": "",
         "DHCP Setup...": "",
         "DHCP": "",
+        "Loading DHCP Logs...": "",
         "Getting DHCP bindings...": "",
         "Getting DHCP information...": "",
         "DHCP Home Information": "",
@@ -562,6 +564,17 @@ LABELS = {
         "Cancel": "",
         "Add DHCP binding": "",
         "-Unknown-": ""
+    },
+
+    # DHCP - Server logs
+    "dlogs": {
+        "Name": "",
+        "MAC": "",
+        "Date/Time": "",
+        "Type": "",
+        "Duration": "",
+        "OK": "",
+        "DHCP Logs": ""
     },
 
     # DHCP - Setup dialog
@@ -765,7 +778,7 @@ LABELS = {
         "Activating Wifi Scheduler...": "",
         "Deactivating Wifi Scheduler...": "",
         "Rebooting Livebox...": "",
-        "Reseting Livebox...": ""
+        "Resetting Livebox...": ""
     },
 
     # Actions - Reboot history
@@ -1101,7 +1114,7 @@ LABELS = {
         "Getting Repeater Scheduler Configuration...": "",
         "Setting Repeater Scheduler Configuration...": "",
         "Rebooting Repeater...": "",
-        "Reseting Repeater...": "",
+        "Resetting Repeater...": "",
         "Getting Reboot History...": "",
         "Signing in to repeater...": ""
     },
@@ -1493,6 +1506,7 @@ TOOLTIPS = {
         "addBinding": "",
         "delBinding": "",
         "refreshDhcpAttribute": "",
+        "dhcpLogs": "",
         "dhcpSetup": ""
     },
 
@@ -1508,6 +1522,16 @@ TOOLTIPS = {
         "ipEdit": "",
         "ok": "",
         "cancel": ""
+    },
+
+    # DHCP - Server logs
+    "dlogs": {
+        "logs_Name": "",
+        "logs_MAC": "",
+        "logs_Timestamp": "",
+        "logs_RequestType": "",
+        "logs_Duration": "",
+        "ok": ""
     },
 
     # DHCP - Setup dialog
@@ -2301,7 +2325,7 @@ MESSAGES = {
         "reboot": "",
         "rebooting": "",
         "reset": "",
-        "reseting": "",
+        "resetting": "",
         "resign": "",
         "forceResign": ""
     },

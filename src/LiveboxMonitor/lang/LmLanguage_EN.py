@@ -326,6 +326,7 @@ TOOLTIPS = {
         "addBinding": "Allows you to add a lease.",
         "delBinding": "Deletes the selected lease.",
         "refreshDhcpAttribute": "Refreshes the list of DHCP information.",
+        "dhcpLogs": "Displays DHCP server log entries.",
         "dhcpSetup": "Allows you to configure the DHCP server."
     },
 
@@ -341,6 +342,21 @@ TOOLTIPS = {
                   "Note that the same device can only be configured on a single domain,\n"
                   "and if it connects to a domain where a static lease is configured on the other,\n"
                   "that lease will be automatically deleted."
+    },
+
+    # DHCP - Server logs
+    "dlogs": {
+        "logs_Name": "Local name of the device.\n"
+                      "This name can be assigned, changed, or deleted via the \"Assign Name...\" button in the \"Device Info\" tab.",
+        "logs_MAC": "MAC address, also called the physical address of the device.",
+        "logs_Timestamp": "Date and time of the DHCP request.",
+        "logs_RequestType": "DHCP request type.\n"
+                            "SHORT refers to a renewal or a rapid transaction where the device\n"
+                            "already knows its previously assigned IP\n"
+                            "NORMAL refers to a standard, full 4-step DORA process (Discover->Offer->Request->ACK),\n"
+                            "typically seen when a device connects to the network for the first time, after a long\n"
+                            "disconnection, or when its previous lease has completely expired.",
+        "logs_Duration": "DHCP request duration in milliseconds."
     },
 
     # DHCP - Setup dialog
