@@ -80,3 +80,11 @@ class DhcpApi(LmApi):
         if mibs:
             return self.call("NeMo.Intf.data", "getMIBs", {"mibs": mibs})
         raise LmApiException("At least one MIB must be selected")
+
+
+    ### Get DHCP server logs
+    def get_logs(self):
+        d = self.call_no_check("DHCPv4.Server.Stats", "getDoraCyclesDetails", timeout=60)
+        if isinstance(d, list):
+            return d
+        raise LmApiException("DHCPv4.Server.Stats:getDoraCyclesDetails query error")
