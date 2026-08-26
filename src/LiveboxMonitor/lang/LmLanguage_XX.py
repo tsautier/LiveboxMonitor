@@ -2344,6 +2344,7 @@ MESSAGES = {
         "keyFileErr": "",
         "configFolderErr": "",
         "profileNameErr": "",
+        "saveConfErr": "",
         "wrongMacFile": "",
         "wrongSpamCallsFile": "",
         "profileName": "",

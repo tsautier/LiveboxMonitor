@@ -2218,6 +2218,7 @@ MESSAGES = {
         "keyFileErr": "Impossible de lire le fichier contenant la clef d'encryption.",
         "configFolderErr": "Impossible de créer le répertoire de configuration.",
         "profileNameErr": "Ce nom est déjà utilisé.",
+        "saveConfErr": "Impossible de créer/enregistrer le fichier de configuration. Erreur : {}.",
         "wrongMacFile": "Le fichier {} est corrompu, impossible de charger les noms d'appareils.",
         "wrongSpamCallsFile": "Le fichier {} est corrompu, impossible de charger la liste des appels "
                               "téléphoniques à indiquer comme spams.",

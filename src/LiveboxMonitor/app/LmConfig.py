@@ -411,6 +411,7 @@ def get_hardware_key():
 
 # ################################ Config Class ################################
 class LmConf:
+    SaveErrorWarning = False
     Secret = None
     CacheDir = None
     Profiles = None
@@ -887,57 +888,68 @@ class LmConf:
 
         config_file_path = os.path.join(config_path, CONFIG_FILE)
         LmTools.log_debug(1, "Saving configuration in", config_file_path)
+
+        config = {}
+        config["Version"] = __build__
+        if LmConf.CurrProfile is None:
+            LmConf.CurrProfile = {}
+            LmConf.CurrProfile["Name"] = lx("Main")
+            LmConf.CurrProfile["Default"] = True
+        LmConf.CurrProfile["Livebox URL"] = LmConf.LiveboxURL
+        LmConf.CurrProfile["Livebox User"] = LmConf.LiveboxUser
+        if LmConf.SavePasswords:
+            try:
+                LmConf.CurrProfile["Livebox Password"] = Fernet(LmConf.Secret.encode("utf-8")).encrypt(LmConf.LiveboxPassword.encode("utf-8")).decode("utf-8")
+            except Exception as e:
+                LmTools.error(f"Cannot save password. Error: {e}")
+                LmConf.CurrProfile["Livebox Password"] = None
+        else:
+            LmConf.CurrProfile["Livebox Password"] = None
+        LmConf.CurrProfile["Livebox MacAddr"] = LmConf.LiveboxMAC
+        LmConf.CurrProfile["Filter Devices"] = LmConf.FilterDevices
+        LmConf.CurrProfile["Only Active Devices"] = LmConf.OnlyActiveDevices
+        LmConf.CurrProfile["MacAddr Table File"] = LmConf.MacAddrTableFile
+        if LmConf.Profiles is None:
+            LmConf.Profiles = []
+            LmConf.Profiles.append(LmConf.CurrProfile)
+        config["Profiles"] = LmConf.Profiles
+        config["Language"] = LmConf.Language
+        config["Tooltips"] = LmConf.Tooltips
+        config["Stats Frequency"] = LmConf.StatsFrequency
+        config["MacAddr API Key"] = LmConf.MacAddrApiKey
+        config["CallFilter API Key"] = LmConf.CallFilterApiKey
+        config["Phone Code"] = LmConf.PhoneCode
+        config["List Header Height"] = LmConf.ListHeaderHeight
+        config["List Header Font Size"] = LmConf.ListHeaderFontSize
+        config["List Line Height"] = LmConf.ListLineHeight
+        config["List Line Font Size"] = LmConf.ListLineFontSize
+        config["Realtime Wifi Stats"] = LmConf.RealtimeWifiStats_save
+        config["Native UI Style"] = LmConf.NativeUIStyle
+        config["Log Level"] = LmConf.LogLevel
+        config["No Release Warning"] = LmConf.NoReleaseWarning
+        config["Repeaters"] = LmConf.Repeaters
+        config["Graph"] = LmConf.Graph
+        config["Tabs"] = LmConf.Tabs
+        config["NotificationRules"] = LmConf.NotificationRules
+        config["NotificationFlushFrequency"] = LmConf.NotificationFlushFrequency
+        config["NotificationFilePath"] = LmConf.NotificationFilePath
+        config["email"] = LmConf.Email
+        config["CSV Delimiter"] = LmConf.CsvDelimiter
+        config["Timeout Margin"] = LmConf.TimeoutMargin
+        config["Prevent Sleep"] = LmConf.PreventSleep
+        config["Save Passwords"] = LmConf.SavePasswords
+        config["Speed Tests"] = LmConf.SpeedTests
+
         try:
             with open(config_file_path, "w") as config_file:
-                config = {}
-                config["Version"] = __build__
-                if LmConf.CurrProfile is None:
-                    LmConf.CurrProfile = {}
-                    LmConf.CurrProfile["Name"] = lx("Main")
-                    LmConf.CurrProfile["Default"] = True
-                LmConf.CurrProfile["Livebox URL"] = LmConf.LiveboxURL
-                LmConf.CurrProfile["Livebox User"] = LmConf.LiveboxUser
-                if LmConf.SavePasswords:
-                    LmConf.CurrProfile["Livebox Password"] = Fernet(LmConf.Secret.encode("utf-8")).encrypt(LmConf.LiveboxPassword.encode("utf-8")).decode("utf-8")
-                else:
-                    LmConf.CurrProfile["Livebox Password"] = None
-                LmConf.CurrProfile["Livebox MacAddr"] = LmConf.LiveboxMAC
-                LmConf.CurrProfile["Filter Devices"] = LmConf.FilterDevices
-                LmConf.CurrProfile["Only Active Devices"] = LmConf.OnlyActiveDevices
-                LmConf.CurrProfile["MacAddr Table File"] = LmConf.MacAddrTableFile
-                if LmConf.Profiles is None:
-                    LmConf.Profiles = []
-                    LmConf.Profiles.append(LmConf.CurrProfile)
-                config["Profiles"] = LmConf.Profiles
-                config["Language"] = LmConf.Language
-                config["Tooltips"] = LmConf.Tooltips
-                config["Stats Frequency"] = LmConf.StatsFrequency
-                config["MacAddr API Key"] = LmConf.MacAddrApiKey
-                config["CallFilter API Key"] = LmConf.CallFilterApiKey
-                config["Phone Code"] = LmConf.PhoneCode
-                config["List Header Height"] = LmConf.ListHeaderHeight
-                config["List Header Font Size"] = LmConf.ListHeaderFontSize
-                config["List Line Height"] = LmConf.ListLineHeight
-                config["List Line Font Size"] = LmConf.ListLineFontSize
-                config["Realtime Wifi Stats"] = LmConf.RealtimeWifiStats_save
-                config["Native UI Style"] = LmConf.NativeUIStyle
-                config["Log Level"] = LmConf.LogLevel
-                config["No Release Warning"] = LmConf.NoReleaseWarning
-                config["Repeaters"] = LmConf.Repeaters
-                config["Graph"] = LmConf.Graph
-                config["Tabs"] = LmConf.Tabs
-                config["NotificationRules"] = LmConf.NotificationRules
-                config["NotificationFlushFrequency"] = LmConf.NotificationFlushFrequency
-                config["NotificationFilePath"] = LmConf.NotificationFilePath
-                config["email"] = LmConf.Email
-                config["CSV Delimiter"] = LmConf.CsvDelimiter
-                config["Timeout Margin"] = LmConf.TimeoutMargin
-                config["Prevent Sleep"] = LmConf.PreventSleep
-                config["Save Passwords"] = LmConf.SavePasswords
-                config["Speed Tests"] = LmConf.SpeedTests
                 json.dump(config, config_file, indent=4)
         except Exception as e:
             LmTools.error(f"Cannot save configuration file. Error: {e}")
+
+            # Notify only once via a dialog
+            if not LmConf.SaveErrorWarning:
+                LmQtTools.display_error(mx("Cannot create/save configuration file. Error: {}.", "saveConfErr").format(e))
+                LmConf.SaveErrorWarning = True
 
 
     ### Set Livebox password
