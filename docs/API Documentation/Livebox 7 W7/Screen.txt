@@ -1,0 +1,14 @@
+=== LIVEBOX SOFTWARE VERSION: SGW7-fr-G03.R09.C02_02
+
+=======================================================================
+OBJECT: .Screen - Name: .Screen
+ == PARAMETERS:
+  - Language (type: string)
+      Attributes: persistent
+ == FUNCTIONS:
+  - void setAnonymousDisplay(string name)
+  - void setLanguage(string language)
+  - string getLanguage()
+  - void setShowWifiPassword(bool Enable)
+  - bool getShowWifiPassword()
+

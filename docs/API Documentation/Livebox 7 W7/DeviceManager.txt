@@ -1,0 +1,22 @@
+=== LIVEBOX SOFTWARE VERSION: SGW7-fr-G03.R09.C02_02
+
+=======================================================================
+OBJECT: .DeviceManager - Name: .DeviceManager
+ == PARAMETERS:
+  - DeviceSources (type: string)
+      Attributes: read_only
+  - DeviceTypes (type: string)
+      Attributes: read_only
+ == FUNCTIONS:
+  - list getDevices((string sources), (string types))
+  - bool enableNotifications()
+
+=======================================================================
+OBJECT: DeviceManager.Connectivity - Name: DeviceManager.Connectivity
+ == PARAMETERS:
+  - ConnectivitySources (type: string)
+      Attributes: read_only
+ == FUNCTIONS:
+  - variant getStatus((string sources))
+  - bool enableNotifications()
+

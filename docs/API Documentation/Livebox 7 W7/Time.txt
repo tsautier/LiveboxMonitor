@@ -1,0 +1,73 @@
+=== LIVEBOX SOFTWARE VERSION: SGW7-fr-G03.R09.C02_02
+
+=======================================================================
+OBJECT: .Time - Name: .Time
+ == PARAMETERS:
+  - Enable (type: bool)
+      Attributes: persistent
+  - Status (type: string)
+      Attributes: read_only
+      Validator: ['Disabled', 'Unsynchronized', 'Synchronized', 'Error_FailedToSynchronize', 'Error']
+  - NTPServer1 (type: string)
+      Attributes: persistent
+  - NTPServer2 (type: string)
+      Attributes: persistent
+  - NTPServer3 (type: string)
+      Attributes: persistent
+  - NTPServer4 (type: string)
+      Attributes: persistent
+  - NTPServer5 (type: string)
+      Attributes: persistent
+  - NTPServer1IP (type: string)
+  - NTPServer2IP (type: string)
+  - NTPServer3IP (type: string)
+  - NTPServer4IP (type: string)
+  - NTPServer5IP (type: string)
+  - Retry1 (type: string)
+      Attributes: persistent
+  - Retry2 (type: string)
+      Attributes: persistent
+  - Retry3 (type: string)
+      Attributes: persistent
+  - Retry4 (type: string)
+      Attributes: persistent
+  - Retry5 (type: string)
+      Attributes: persistent
+  - PreferredServer (type: string)
+      Attributes: persistent
+  - NTPReqInterval (type: uint32)
+      Attributes: persistent
+  - ListenOn1 (type: string)
+      Attributes: persistent
+  - ListenOn2 (type: string)
+      Attributes: persistent
+  - ListenOn3 (type: string)
+      Attributes: persistent
+  - ListenOn4 (type: string)
+      Attributes: persistent
+  - ListenOn5 (type: string)
+      Attributes: persistent
+  - Interface (type: string)
+      Attributes: persistent
+  - CurrentLocalTime (type: date_time)
+      Attributes: read_only
+  - LocalTimeZone (type: string)
+  - LocalTimeZoneName (type: string)
+      Attributes: persistent
+  - DaylightSavingsUsed (type: bool)
+  - DaylightSavingsStart (type: date_time)
+  - DaylightSavingsEnd (type: date_time)
+  - LastTimeAdjustment (type: int32)
+  - SyncModeList (type: string)
+      Attributes: read_only
+  - SyncMode (type: string)
+      Attributes: persistent
+ == FUNCTIONS:
+  - bool getTime((string time))
+  - void getUTCTime((string time))
+  - void getStatus((string status))
+  - void getNTPServers((variant servers))
+  - bool getLocalTimeZoneName((string timezone))
+  - bool setLocalTimeZoneName(string timezone)
+  - bool listLocalTimeZoneNames((list timezones))
+

@@ -1,0 +1,7 @@
+=== LIVEBOX SOFTWARE VERSION: SGW7-fr-G03.R09.C02_02
+
+=======================================================================
+OBJECT: .WOL - Name: .WOL
+ == FUNCTIONS:
+  - void sendWakeOnLan(string hostID, (string intf), (string password), (bool broadcast), (uint32 retries), (uint32 interval))
+

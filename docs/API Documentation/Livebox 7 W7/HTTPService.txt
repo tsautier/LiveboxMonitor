@@ -1,0 +1,13 @@
+=== LIVEBOX SOFTWARE VERSION: SGW7-fr-G03.R09.C02_02
+
+=======================================================================
+OBJECT: .HTTPService - Name: .HTTPService
+ == PARAMETERS:
+  - SessionTimeout (type: uint32)
+      Attributes: persistent
+  - EnableWebServiceStatistics (type: bool)
+      Attributes: persistent
+ == FUNCTIONS:
+  - bool getAuthenticationModes()
+  - bool getCurrentUser()
+

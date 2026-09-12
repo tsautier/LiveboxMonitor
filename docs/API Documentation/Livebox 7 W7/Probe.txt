@@ -1,0 +1,14 @@
+=== LIVEBOX SOFTWARE VERSION: SGW7-fr-G03.R09.C02_02
+
+=======================================================================
+OBJECT: .Probe - Name: .Probe
+ == PARAMETERS:
+  - Version (type: string)
+      Attributes: read_only
+  - LicenseStatus (type: bool)
+      Attributes: persistent
+  - BlacklistMQTT (type: string)
+      Attributes: persistent
+ == FUNCTIONS:
+  - void logEvents(plib_event_list_t events, (bool type))
+

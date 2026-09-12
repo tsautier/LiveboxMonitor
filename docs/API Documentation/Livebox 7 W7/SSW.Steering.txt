@@ -1,0 +1,282 @@
+=== LIVEBOX SOFTWARE VERSION: SGW7-fr-G03.R09.C02_02
+
+=======================================================================
+OBJECT: SSW.Steering - Name: SSW.Steering
+ == PARAMETERS:
+  - Enable (type: bool)
+      Attributes: persistent
+  - Status (type: string)
+      Attributes: read_only
+      Validator: ['Down', 'Up']
+ == FUNCTIONS:
+  - void getNodeBackhaul((string MAC))
+  - void getNodeUplinks((string MAC), (bool dev))
+  - void getUplinkInfo((string MAC), (bool dev))
+  - void getRoamInfo((string MAC))
+  - stationInfo getStationStats((string MAC))
+  - stationInfo getStationSteerStats((string MAC))
+  - void getAllStationsCompactInfo()
+  - void getStationAssocLog((string MAC))
+  - list getAllStations((string ap))
+  - list getAllNetdevStats((string device), (string interface))
+  - stationsStandards getAllStationsStandards((string ap))
+  - bool deleteStationInfo((string MAC))
+  - bool purgeMAC((string MAC))
+  - void getStaObs((string MAC))
+  - void setModeConfig((string mode), (string targetBroker))
+  - void getTopologyScoreInfo()
+  - void getQoEStats((string MAC))
+  - void dumpNodeModel()
+
+=======================================================================
+OBJECT: SSW.Steering.MasterConfig - Name: SSW.Steering.MasterConfig
+ == PARAMETERS:
+  - SyncEnableField (type: bool)
+      Attributes: persistent
+  - EndpointSyncEnable (type: bool)
+      Attributes: persistent
+  - ChannelMgtSyncEnable (type: bool)
+      Attributes: persistent
+  - UpdateVAPPersistentEnableOnEnableSync (type: bool)
+      Attributes: persistent
+  - PrplMeshDiscoveryEnable (type: bool)
+      Attributes: persistent
+  - EnsureWiFi7Security (type: bool)
+      Attributes: persistent
+  - WPA3CMToTmIfNotSupported (type: bool)
+      Attributes: persistent
+
+=======================================================================
+OBJECT: SSW.Steering.MasterConfig.OperatingStandards - Name: SSW.Steering.MasterConfig.OperatingStandards
+ == PARAMETERS:
+  - Enabled24GHz (type: string)
+      Attributes: persistent
+  - Enabled5GHz (type: string)
+      Attributes: persistent
+  - Enabled6GHz (type: string)
+      Attributes: persistent
+  - PossibleStandards (type: string)
+      Attributes: read_only, persistent
+  - AvailableStandards (type: string)
+      Attributes: persistent
+  - SupportedStandards (type: string)
+      Attributes: read_only, persistent
+  - SyncMode (type: string)
+      Attributes: persistent
+      Validator: ['Off', 'Config', 'Mirrored']
+  - UpgradeStandardsOnOldPossibleStandards (type: bool)
+      Attributes: persistent
+ == FUNCTIONS:
+  - void enable((string opStd), (string band))
+  - void disable((string opStd), (string band))
+  - void debug()
+
+=======================================================================
+OBJECT: SSW.Steering.ExceptionList - Name: SSW.Steering.ExceptionList
+ == PARAMETERS:
+  - MaxNumberOfExceptions (type: uint32)
+      Attributes: persistent
+  - AutoCleanEmptyTargetOnMacDelete (type: bool)
+      Attributes: persistent
+  - DeployExceptions (type: bool)
+      Attributes: persistent
+  - VideoAutoExceptType (type: string)
+      Attributes: persistent
+      Validator: ['Legacy', 'Auto', 'Force', 'ForceNoSteer']
+  - SlaveAutoExceptType (type: string)
+      Attributes: persistent
+      Validator: ['Legacy', 'Auto', 'Force', 'ForceNoSteer']
+  - MACTargetSourceString (type: string)
+      Attributes: persistent
+ == FUNCTIONS:
+  - void createGmapAutoException(string query, (string target), (string type), (bool persistent), (string key))
+  - void deleteGmapAutoExceptionByKey(string key)
+  - void deleteGmapAutoExceptionByQuery(string query)
+  - void createException((string MAC), (uint8 mask), (string target), (string type), (string forceMode), (string source))
+  - void deleteException((string MAC), (uint8 mask))
+  - void cleanAllExceptionsByMac((string MAC))
+
+=======================================================================
+OBJECT: SSW.Steering.ExceptionList.Station - Name: SSW.Steering.ExceptionList.Station
+ == PARAMETERS:
+  - MAC (type: string)
+      Attributes: persistent
+  - Mask (type: uint8)
+      Attributes: persistent
+      Validator: {'min': '0', 'max': '6'}
+  - Type (type: string)
+      Attributes: persistent
+      Validator: ['Auto', 'Force', 'ForceNoSteer']
+  - Target (type: string)
+      Attributes: persistent
+  - ForceMode (type: string)
+      Attributes: persistent
+      Validator: ['Always', 'TargetAvailable']
+  - Source (type: string)
+      Attributes: persistent
+
+=======================================================================
+OBJECT: SSW.Steering.QoSUpgrade - Name: SSW.Steering.QoSUpgrade
+ == PARAMETERS:
+  - Target (type: string)
+      Attributes: persistent
+      Validator: ['ftos', 'wmm-mark']
+ == FUNCTIONS:
+  - void createRule(string mac, (uint8 tid))
+  - void deleteRule(string mac)
+
+=======================================================================
+OBJECT: SSW.Steering.QoSUpgrade.Rules - Name: SSW.Steering.QoSUpgrade.Rules
+ == PARAMETERS:
+  - Query (type: string)
+      Attributes: persistent
+  - TID (type: uint8)
+      Attributes: persistent
+      Validator: {'min': '0', 'max': '7'}
+
+=======================================================================
+OBJECT: SSW.Steering.QoSUpgrade.Rules.Station - Name: SSW.Steering.QoSUpgrade.Rules.Station
+ == PARAMETERS:
+  - MACAddress (type: string)
+  - IPv4Address (type: string)
+  - IPv6Address (type: string)
+
+=======================================================================
+OBJECT: SSW.Steering.Policy - Name: SSW.Steering.Policy
+ == PARAMETERS:
+  - BandSteeringStatus (type: bool)
+      Attributes: read_only
+  - ClientSteeringStatus (type: bool)
+      Attributes: read_only
+  - NrHandovers (type: uint32)
+      Attributes: read_only
+  - NrHandbacks (type: uint32)
+      Attributes: read_only
+  - NrFalseHandovers (type: uint32)
+      Attributes: read_only
+  - NrTriggers (type: uint32)
+      Attributes: read_only
+  - NrSuccess (type: uint32)
+      Attributes: read_only
+  - NrFail (type: uint32)
+      Attributes: read_only
+  - NrAbort (type: uint32)
+      Attributes: read_only
+  - NrFastFail (type: uint32)
+      Attributes: read_only
+  - AvgReconnectTime (type: uint32)
+      Attributes: read_only
+  - AvgSteeringTime (type: uint32)
+      Attributes: read_only
+  - NrReconnectMeasurements (type: uint32)
+      Attributes: read_only
+  - AvgFailReconnectTime (type: uint32)
+      Attributes: read_only
+  - MaxSteerReached (type: uint32)
+      Attributes: read_only
+
+=======================================================================
+OBJECT: SSW.Steering.Policy.ShutdownBand - Name: SSW.Steering.Policy.ShutdownBand
+ == PARAMETERS:
+  - NrTriggers (type: uint32)
+      Attributes: read_only
+  - NrSuccess (type: uint32)
+      Attributes: read_only
+  - NrFail (type: uint32)
+      Attributes: read_only
+  - NrAbort (type: uint32)
+      Attributes: read_only
+  - NrFastFail (type: uint32)
+      Attributes: read_only
+  - NrHandback (type: uint32)
+      Attributes: read_only
+  - NrFalseHandovers (type: uint32)
+      Attributes: read_only
+  - AvgReconnectTime (type: uint32)
+      Attributes: read_only
+  - AvgSteeringTime (type: uint32)
+      Attributes: read_only
+  - NrReconnectMeasurements (type: uint32)
+      Attributes: read_only
+
+=======================================================================
+OBJECT: SSW.Steering.ExternalDevice - Name: SSW.Steering.ExternalDevice
+ == PARAMETERS:
+  - MACAddress (type: string)
+      Attributes: read_only
+
+=======================================================================
+OBJECT: SSW.Steering.ExternalDevice.Station - Name: SSW.Steering.ExternalDevice.Station
+ == PARAMETERS:
+  - MACAddress (type: string)
+      Attributes: read_only
+
+=======================================================================
+OBJECT: SSW.Steering.FeatureConfig - Name: SSW.Steering.FeatureConfig
+ == PARAMETERS:
+  - NaStaMonEnable (type: bool)
+      Attributes: persistent
+  - NaStaMonMatchChannel (type: bool)
+      Attributes: persistent
+  - NaStaMonStatus (type: string)
+      Attributes: read_only
+      Validator: ['Down', 'Up']
+
+=======================================================================
+OBJECT: SSW.Steering.FeatureConfig.ProbeFiltering - Name: SSW.Steering.FeatureConfig.ProbeFiltering
+ == PARAMETERS:
+  - Enable (type: bool)
+      Attributes: persistent
+  - AllowHandover (type: bool)
+      Attributes: persistent
+  - BlockAfterSteer (type: bool)
+      Attributes: persistent
+  - BlockTime (type: uint32)
+      Attributes: persistent
+  - FilterOnBothBands (type: bool)
+      Attributes: persistent
+  - Status (type: string)
+      Attributes: read_only
+      Validator: ['Down', 'Up']
+ == FUNCTIONS:
+  - void debug()
+
+=======================================================================
+OBJECT: SSW.Steering.FeatureConfig.ApRoleSync - Name: SSW.Steering.FeatureConfig.ApRoleSync
+ == PARAMETERS:
+  - Enable (type: bool)
+      Attributes: persistent
+  - Status (type: bool)
+      Attributes: read_only
+  - Depth (type: int32)
+      Attributes: persistent
+  - WirelessDepth (type: int32)
+      Attributes: persistent
+
+=======================================================================
+OBJECT: SSW.Steering.FeatureConfig.UplinkQualityAssessment - Name: SSW.Steering.FeatureConfig.UplinkQualityAssessment
+ == PARAMETERS:
+  - MediumRssiThreshold (type: int32)
+      Attributes: persistent
+      Validator: {'min': '-100', 'max': '0'}
+  - GoodRssiThreshold (type: int32)
+      Attributes: persistent
+      Validator: {'min': '-100', 'max': '0'}
+  - MediumBandwidthThreshold (type: uint32)
+      Attributes: persistent
+      Validator: {'min': '0', 'max': '10000'}
+  - GoodBandwidthThreshold (type: uint32)
+      Attributes: persistent
+      Validator: {'min': '0', 'max': '10000'}
+
+=======================================================================
+OBJECT: SSW.Steering.FeatureConfig.StatMonConfig - Name: SSW.Steering.FeatureConfig.StatMonConfig
+ == PARAMETERS:
+  - Enable (type: bool)
+      Attributes: persistent
+  - Interval (type: uint32)
+      Attributes: persistent
+  - Type (type: string)
+      Attributes: read_only, persistent
+      Validator: ['unknown', 'netdev', 'wlansta', 'dslline']
+

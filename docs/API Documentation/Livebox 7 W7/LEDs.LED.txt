@@ -1,0 +1,11 @@
+=== LIVEBOX SOFTWARE VERSION: SGW7-fr-G03.R09.C02_02
+
+=======================================================================
+OBJECT: LEDs.LED - Name: LEDs.LED
+ == PARAMETERS:
+  - Brightness (type: uint8)
+      Attributes: persistent
+      Validator: {'max': '255'}
+  - Path (type: string)
+      Attributes: read_only
+

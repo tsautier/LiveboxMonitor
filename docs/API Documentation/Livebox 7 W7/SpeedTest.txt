@@ -1,0 +1,15 @@
+=== LIVEBOX SOFTWARE VERSION: SGW7-fr-G03.R09.C02_02
+
+=======================================================================
+OBJECT: .SpeedTest - Name: .SpeedTest
+ == PARAMETERS:
+  - DNSCacheTimer (type: int32)
+      Attributes: persistent
+  - ServerConfigNumberOfEntries (type: uint32)
+      Attributes: read_only
+  - DiagnosticNumberOfEntries (type: uint32)
+      Attributes: read_only
+ == FUNCTIONS:
+  - void getWANResults()
+  - void getLinkInfo((string iface))
+

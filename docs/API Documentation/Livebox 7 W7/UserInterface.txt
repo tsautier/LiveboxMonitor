@@ -1,0 +1,24 @@
+=== LIVEBOX SOFTWARE VERSION: SGW7-fr-G03.R09.C02_02
+
+=======================================================================
+OBJECT: .UserInterface - Name: .UserInterface
+ == PARAMETERS:
+  - AvailableLanguages (type: string)
+      Attributes: read_only
+  - CurrentLanguage (type: string)
+      Attributes: persistent
+      Validator: ['en', 'fr']
+  - BackupFileName (type: string)
+      Attributes: persistent
+  - CurrentState (type: string)
+      Attributes: persistent
+      Validator: ['installed', 'connected', '']
+ == FUNCTIONS:
+  - string getLanguage((string availableLanguages))
+  - bool setLanguage(string currentLanguage)
+  - string setState(string currentState)
+  - string getState()
+  - bool export((string fileName))
+  - bool import((string fileName))
+  - variant getDebugInformation()
+

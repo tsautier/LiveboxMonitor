@@ -1,0 +1,16 @@
+=== LIVEBOX SOFTWARE VERSION: SGW7-fr-G03.R09.C02_02
+
+=======================================================================
+OBJECT: .OrangeRemoteAccess - Name: .OrangeRemoteAccess
+ == FUNCTIONS:
+  - variant get()
+  - bool set((variant parameters))
+
+=======================================================================
+OBJECT: OrangeRemoteAccess.OnDemand - Name: OrangeRemoteAccess.OnDemand
+ == PARAMETERS:
+  - Enable (type: bool)
+ == FUNCTIONS:
+  - variant get()
+  - bool set((variant parameters))
+

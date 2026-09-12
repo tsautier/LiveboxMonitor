@@ -1,0 +1,19 @@
+=== LIVEBOX SOFTWARE VERSION: SGW7-fr-G03.R09.C02_02
+
+=======================================================================
+OBJECT: .Profiles - Name: .Profiles
+
+=======================================================================
+OBJECT: Profiles.Profile - Name: Profiles.Profile
+ == PARAMETERS:
+  - Current (type: string)
+      Attributes: persistent
+  - Profiles (type: string)
+      Attributes: persistent
+ == FUNCTIONS:
+  - variant get()
+  - variant getData()
+  - variant setData(variant data, (string profileName))
+  - void setCurrent(string profileName)
+  - list getNames()
+

@@ -1,0 +1,39 @@
+=== LIVEBOX SOFTWARE VERSION: SGW7-fr-G03.R09.C02_02
+
+=======================================================================
+OBJECT: .ServiceInvocation - Name: .ServiceInvocation
+ == PARAMETERS:
+  - Status (type: bool)
+      Attributes: read_only
+ == FUNCTIONS:
+  - bool reloadAclScript()
+  - bool export((string fileName))
+  - bool import((string fileName))
+
+=======================================================================
+OBJECT: ServiceInvocation.OnDemand - Name: ServiceInvocation.OnDemand
+ == PARAMETERS:
+  - Enable (type: bool)
+      Attributes: persistent
+  - Port (type: string)
+      Attributes: persistent
+  - Duration (type: uint32)
+      Attributes: persistent
+  - ActivationDate (type: date_time)
+      Attributes: read_only, persistent
+ == FUNCTIONS:
+  - bool activate()
+  - variant get()
+  - bool set((variant parameters))
+
+=======================================================================
+OBJECT: ServiceInvocation.OnDemand.Server - Name: ServiceInvocation.OnDemand.Server
+ == PARAMETERS:
+  - CommonName (type: string)
+      Attributes: persistent
+
+=======================================================================
+OBJECT: ServiceInvocation.ACLConfigFile - Name: ServiceInvocation.ACLConfigFile
+ == PARAMETERS:
+  - Version (type: string)
+
